@@ -1,0 +1,26 @@
+[
+  {
+    "productName": "Product 1",
+    "productImage": "https://i.ibb.co/pxVZTbH/Pngtree-dslr-digital-camera-8231559.png",
+    "seller": "Seller 1",
+    "availableQuantity": 10,
+    "price": 19.99,
+    "category": "watches"
+  },
+  {
+    "productName": "Product 2",
+    "productImage": "https://i.ibb.co/pxVZTbH/Pngtree-dslr-digital-camera-8231559.png",
+    "seller": "Seller 2",
+    "availableQuantity": 5,
+    "price": 29.99,
+    "category": "cameras"
+  },
+  {
+    "productName": "Product 3",
+    "productImage": "https://i.ibb.co/pxVZTbH/Pngtree-dslr-digital-camera-8231559.png",
+    "seller": "Seller 3",
+    "availableQuantity": 8,
+    "price": 14.99,
+    "category": "electronics"
+  }
+]
