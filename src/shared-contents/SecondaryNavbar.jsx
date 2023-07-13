@@ -22,7 +22,7 @@ const SecondaryNavbar = () => {
   const handleCategory = (item) => {
     setProdCat(item);
   };
-  console.log(prodCat);
+
   return (
     <Box>
       <nav>

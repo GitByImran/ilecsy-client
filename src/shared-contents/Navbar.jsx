@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -11,6 +11,8 @@ import {
   Box,
   Container,
   Badge,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -60,15 +62,21 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Navbar = () => {
   const { userFound, user, logOut } = useContext(AuthContext);
+  const [showMenu, setShowMenu] = useState(null);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log(userFound);
-  console.log(user);
-
   const handleLogout = () => {
     logOut();
+  };
+
+  const handleMenuOpen = (event) => {
+    setShowMenu(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setShowMenu(null);
   };
 
   return (
@@ -86,15 +94,57 @@ const Navbar = () => {
           }}
         >
           {/* Menu Links */}
-          {isTablet && (
-            <IconButton
-              edge="start"
-              color="#00"
-              aria-label="menu"
-              sx={{ border: "3px solid #aaa" }}
-            >
-              <MenuIcon />
-            </IconButton>
+          {isMobile && (
+            <Box>
+              <IconButton
+                edge="start"
+                color="#000"
+                aria-label="menu"
+                onClick={handleMenuOpen}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                anchorEl={showMenu}
+                open={Boolean(showMenu)}
+                onClose={handleMenuClose}
+              >
+                {navMenus.map((menu, index) => (
+                  <MenuItem
+                    key={index}
+                    component={Link}
+                    to={menu.goto}
+                    onClick={handleMenuClose}
+                  >
+                    {menu.icon}
+                    <Typography>{menu.label}</Typography>
+                  </MenuItem>
+                ))}
+                {user
+                  ? userMenus.map((menu, index) => (
+                      <MenuItem
+                        key={index}
+                        component={Link}
+                        to={menu.goto}
+                        onClick={handleMenuClose}
+                      >
+                        {menu.icon}
+                        <Typography>{menu.label}</Typography>
+                      </MenuItem>
+                    ))
+                  : authMenus.map((menu, index) => (
+                      <MenuItem
+                        key={index}
+                        component={Link}
+                        to={menu.goto}
+                        onClick={handleMenuClose}
+                      >
+                        {menu.icon}
+                        <Typography>{menu.label}</Typography>
+                      </MenuItem>
+                    ))}
+              </Menu>
+            </Box>
           )}
 
           {/* Logo */}
@@ -102,7 +152,7 @@ const Navbar = () => {
             ILECSY
           </Typography>
 
-          {!isTablet && (
+          {!isMobile && (
             <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
               {navMenus.map((menu, index) => (
                 <Button
