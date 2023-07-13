@@ -1,84 +1,109 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { styled } from "@mui/material/styles";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./Provider";
+
+const Style = styled("div")(({ theme }) => ({
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#000",
+      border: "2px solid #000",
+    },
+    "&:hover fieldset": {
+      borderColor: "#000",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#000",
+    },
+  },
+  "& .MuiInputLabel-root": {
+    color: "#000",
+  },
+  "& .MuiFormHelperText-root": {
+    color: "#000",
+  },
+}));
 
 const Signup = () => {
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const {
     handleSubmit,
     register,
     formState: { errors },
+    reset,
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    const { email, password, name } = data;
+    createUser(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        updateUserProfile(name)
+          .then((user) => {
+            console.log("User name updated successfully");
+            reset();
+          })
+          .catch((error) => {
+            console.log("Error updating user name:", error);
+          });
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log("Error creating user:", error);
+      });
   };
 
   return (
-    <Container maxWidth="sm" sx={{ my: 10 }}>
+    <Container maxWidth="sm" sx={{ my: 5 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
-        Get back to your account
+        Let's create an account
       </Typography>
       <Box>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            label="Email"
-            {...register("email", { required: "Email is required" })}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-            margin="normal"
-            sx={{
-              width: "100%",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#000",
-                  border: "2px solid #000",
+          <Style>
+            <TextField
+              label="Name"
+              {...register("name", { required: "Name is required" })}
+              error={!!errors.name}
+              helperText={errors.name?.message}
+              margin="normal"
+              fullWidth
+            />
+
+            <TextField
+              label="Email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Invalid email format",
                 },
-                "&:hover fieldset": {
-                  borderColor: "#000",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#000",
-                },
-              },
-              "& .MuiInputLabel-root": {
-                color: "#000",
-              },
-              "& .MuiFormHelperText-root": {
-                color: "#000",
-              },
-            }}
-          />
-          <TextField
-            label="Password"
-            type="password"
-            {...register("password", { required: "Password is required" })}
-            error={!!errors.password}
-            helperText={errors.password?.message}
-            margin="normal"
-            sx={{
-              width: "100%",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#000",
-                  border: "2px solid #000",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#000",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#000",
-                },
-              },
-              "& .MuiInputLabel-root": {
-                color: "#000",
-              },
-              "& .MuiFormHelperText-root": {
-                color: "#000",
-              },
-            }}
-          />
+              })}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Password"
+              type="password"
+              {...register("password", {
+                required: true,
+                minLength: 6,
+                pattern: /(?=.*[A-Z])(?=.*\W)/,
+              })}
+              error={errors.password}
+              helperText={
+                errors.password &&
+                "Password must be at least 6 characters long and contain a capital letter and a special character"
+              }
+              margin="normal"
+              fullWidth
+            />
+          </Style>
           <Button
             variant="outlined"
             type="submit"
@@ -100,9 +125,9 @@ const Signup = () => {
           </Button>
         </form>
         <Typography my={2} fontWeight="bold">
-          Already have an account ,
+          Already have an account,{" "}
           <Link
-            to="/signup"
+            to="/signin"
             style={{ textDecoration: "none", color: "red", margin: "0 5px" }}
           >
             Login now

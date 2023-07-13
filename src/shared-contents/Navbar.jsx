@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -17,13 +17,22 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import AddIcCallIcon from "@mui/icons-material/AddIcCall";
 import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../authentication/Provider";
 
-const navMenus = [{ label: "home", goto: "/", icon: <HomeOutlinedIcon /> }];
+const navMenus = [
+  { label: "home", goto: "/", icon: <HomeOutlinedIcon /> },
+  {
+    label: "+88 01234567890",
+    goto: "tel:+88 01234567890",
+    icon: <AddIcCallIcon />,
+  },
+];
 const authMenus = [
   { label: "Sign In", goto: "/signin", icon: <LoginIcon /> },
   {
@@ -38,7 +47,7 @@ const userMenus = [
     goto: "/dashboard",
     icon: <DashboardCustomizeOutlinedIcon />,
   },
-  { label: "Sign out", goto: "/signout", icon: <LogoutIcon /> },
+  { label: "Sign out", goto: "/", icon: <LogoutIcon />, action: true },
 ];
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -50,9 +59,17 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const { userFound, user, logOut } = useContext(AuthContext);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  console.log(userFound);
+  console.log(user);
+
+  const handleLogout = () => {
+    logOut();
+  };
 
   return (
     <AppBar
@@ -86,7 +103,7 @@ const Navbar = () => {
           </Typography>
 
           {!isTablet && (
-            <Box sx={{ display: "flex", gap: 3 }}>
+            <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
               {navMenus.map((menu, index) => (
                 <Button
                   key={index}
@@ -132,28 +149,52 @@ const Navbar = () => {
 
           {!isMobile && (
             <Box sx={{ display: "flex", gap: 3 }}>
-              {authMenus.map((menu, index) => (
-                <Button
-                  key={index}
-                  component={Link}
-                  to={menu.goto}
-                  fontFamily="Exo 2 !important"
-                  sx={{
-                    color: "#000",
-                    fontSize: "20px !important",
-                    padding: "0px",
-                    margin: "0px",
-                    minWidth: "0px",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  {menu.icon}
-                  <Typography fontSize="13px !important" fontWeight="bold">
-                    {menu.label}
-                  </Typography>
-                </Button>
-              ))}
+              {!user
+                ? authMenus.map((menu, index) => (
+                    <Button
+                      key={index}
+                      component={Link}
+                      to={menu.goto}
+                      fontFamily="Exo 2 !important"
+                      sx={{
+                        color: "#000",
+                        fontSize: "20px !important",
+                        padding: "0px",
+                        margin: "0px",
+                        minWidth: "0px",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      {menu.icon}
+                      <Typography fontSize="13px !important" fontWeight="bold">
+                        {menu.label}
+                      </Typography>
+                    </Button>
+                  ))
+                : userMenus.map((menu, index) => (
+                    <Button
+                      key={index}
+                      component={Link}
+                      to={menu.goto}
+                      onClick={menu.action && handleLogout}
+                      fontFamily="Exo 2 !important"
+                      sx={{
+                        color: "#000",
+                        fontSize: "20px !important",
+                        padding: "0px",
+                        margin: "0px",
+                        minWidth: "0px",
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                      {menu.icon}
+                      <Typography fontSize="13px !important" fontWeight="bold">
+                        {menu.label}
+                      </Typography>
+                    </Button>
+                  ))}
             </Box>
           )}
 
