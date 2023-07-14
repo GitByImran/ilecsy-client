@@ -117,7 +117,7 @@ const Navbar = () => {
                     onClick={handleMenuClose}
                   >
                     {menu.icon}
-                    <Typography>{menu.label}</Typography>
+                    <Typography ml={isMobile && 1}>{menu.label}</Typography>
                   </MenuItem>
                 ))}
                 {user
@@ -129,7 +129,7 @@ const Navbar = () => {
                         onClick={handleMenuClose}
                       >
                         {menu.icon}
-                        <Typography>{menu.label}</Typography>
+                        <Typography ml={isMobile && 1}>{menu.label}</Typography>
                       </MenuItem>
                     ))
                   : authMenus.map((menu, index) => (
@@ -140,7 +140,7 @@ const Navbar = () => {
                         onClick={handleMenuClose}
                       >
                         {menu.icon}
-                        <Typography>{menu.label}</Typography>
+                        <Typography ml={isMobile && 1}>{menu.label}</Typography>
                       </MenuItem>
                     ))}
               </Menu>
@@ -178,7 +178,7 @@ const Navbar = () => {
               ))}
               <Button
                 component={Link}
-                to="/cart"
+                to="/dashboard/cart"
                 fontFamily="Exo 2 !important"
                 sx={{
                   color: "#000",

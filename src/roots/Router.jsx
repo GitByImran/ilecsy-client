@@ -5,6 +5,16 @@ import Home from "../guest-pages/home/page/Home";
 import Signin from "../authentication/Signin";
 import Signup from "../authentication/Signup";
 import Dashboard from "../dashboard/Dashboard";
+import Cart from "../dashboard/dashboard-components/Cart";
+import MakePayment from "../dashboard/user/MakePayment";
+import PaymentHistory from "../dashboard/user/PaymentHistory";
+import MyOrders from "../dashboard/user/MyOrders";
+import ManageUser from "../dashboard/admin/ManageUser";
+import Allorders from "../dashboard/admin/Allorders";
+import PendingOrders from "../dashboard/admin/PendingOrders";
+import CompleteOrders from "../dashboard/admin/CompleteOrders";
+import Profile from "../dashboard/dashboard-components/Profile";
+
 const Routes = createBrowserRouter([
   {
     path: "/",
@@ -22,11 +32,53 @@ const Routes = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
       },
+      // {
+      //   path: "/cart",
+      //   element: <Cart />,
+      // },
     ],
   },
   {
     path: "/dashboard",
     element: <Dashboard />,
+    children: [
+      {
+        path: "/dashboard/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/dashboard/cart",
+        element: <Cart />,
+      },
+      {
+        path: "/dashboard/make-payment",
+        element: <MakePayment />,
+      },
+      {
+        path: "/dashboard/payment-history",
+        element: <PaymentHistory />,
+      },
+      {
+        path: "/dashboard/my-orders",
+        element: <MyOrders />,
+      },
+      {
+        path: "/dashboard/manage-users",
+        element: <ManageUser />,
+      },
+      {
+        path: "/dashboard/all-orders",
+        element: <Allorders />,
+      },
+      {
+        path: "/dashboard/pending-orders",
+        element: <PendingOrders />,
+      },
+      {
+        path: "/dashboard/complete-orders",
+        element: <CompleteOrders />,
+      },
+    ],
   },
 ]);
 export default Routes;

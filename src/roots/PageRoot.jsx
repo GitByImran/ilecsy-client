@@ -1,8 +1,9 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "../shared-contents/Navbar";
+
 import Footer from "../shared-contents/Footer";
 import { Container } from "@mui/material";
+import Navbar from "../shared-contents/Navbar";
 
 const PageRoot = () => {
   return (
