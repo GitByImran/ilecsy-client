@@ -8,7 +8,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../../firebase.config";
-
+import axios from "axios";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export const AuthContext = createContext(null);
@@ -19,7 +19,8 @@ const googleProvider = new GoogleAuthProvider();
 
 const Provider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  const [isAdmin, setIsAdmin] = useState(false); // New state to store admin status
+  const [userData, setUserData] = useState(null);
   const [userFound, setUserFound] = useState(false);
   const [userNotFound, setUserNotFound] = useState(false);
 
@@ -35,13 +36,9 @@ const Provider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  //
-
   const googleRegister = (googleProvider) => {
     return signInWithPopup(auth, googleProvider);
   };
-
-  //
 
   const logOut = () => {
     setLoading(true);
@@ -54,7 +51,41 @@ const Provider = ({ children }) => {
       setUser(loggedUser);
       setLoading(false);
       if (loggedUser) {
+        axios
+          .post(
+            "http://localhost:5000/jwt",
+            { email: loggedUser.email },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((data) => {
+            console.log(data);
+            localStorage.setItem("token", data.data.token);
+          });
         setUserFound(true);
+
+        axios
+          .get("http://localhost:5000/users")
+          .then((response) => {
+            const data = response.data;
+            const foundUser = data.find(
+              (item) => item.email === loggedUser.email
+            );
+            setUserData(foundUser);
+            if (foundUser && foundUser.role === "admin") {
+              setIsAdmin(true);
+            } else {
+              setIsAdmin(false);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching user data:", error);
+          });
+      } else {
+        localStorage.removeItem("token");
       }
     });
     return () => {
@@ -70,6 +101,8 @@ const Provider = ({ children }) => {
   const authInfo = {
     auth,
     user,
+    isAdmin,
+    userData,
     createUser,
     signIn,
     logOut,

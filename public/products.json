@@ -1,26 +1,362 @@
 [
   {
-    "productName": "Product 1",
-    "productImage": "https://i.ibb.co/pxVZTbH/Pngtree-dslr-digital-camera-8231559.png",
-    "seller": "Seller 1",
+    "productName": "T500 Smart Watch Compatible with Android & iOS Bluetooth Calling Smart Watch",
+    "productImage": "https://static-01.daraz.com.bd/p/5dc25d6f1bb71fc866fb6052e6f70078.jpg",
     "availableQuantity": 10,
-    "price": 19.99,
+    "price": 99.99,
+    "tax": 5.0,
     "category": "watches"
   },
   {
-    "productName": "Product 2",
-    "productImage": "https://i.ibb.co/pxVZTbH/Pngtree-dslr-digital-camera-8231559.png",
-    "seller": "Seller 2",
+    "productName": "T500 Smart Watch Compatible with Android & iOS Bluetooth Watch",
+    "productImage": "https://static-01.daraz.com.bd/p/5aa634e9fdbb23ed29a7eed8dc147277.jpg",
     "availableQuantity": 5,
-    "price": 29.99,
+    "price": 79.99,
+    "tax": 4.0,
+    "category": "watches"
+  },
+  {
+    "productName": "Smart Watch untuk Pria Wanita D18 Olahraga Mode Tahan Air Jam Pintar Kebugaran Jam Tangan Pelacak Tidur Monitor Gelang Pintar untuk IOS Android Ponsel",
+    "productImage": "https://static-01.daraz.com.bd/p/b651e0265b0c4ce4215639c363b51b4b.jpg",
+    "availableQuantity": 8,
+    "price": 59.99,
+    "tax": 3.0,
+    "category": "watches"
+  },
+  {
+    "productName": "Fd68S Smart Watch Men Women Bracelet Wireless Sleep Monitoring Smartwatch - Smart Watch",
+    "productImage": "https://static-01.daraz.com.bd/p/e569956e85a3e7cf4267a1b34b0dcfcf.jpg",
+    "availableQuantity": 12,
+    "price": 89.99,
+    "tax": 4.5,
+    "category": "watches"
+  },
+  {
+    "productName": "COLMI P28 Plus Calling Smart Watch",
+    "productImage": "https://static-01.daraz.com.bd/p/5688b5ca86b03ebb8b0837a4ce8e1341.jpg",
+    "availableQuantity": 15,
+    "price": 69.99,
+    "tax": 3.5,
+    "category": "watches"
+  },
+  {
+    "productName": "Camera Data USB Cable Cord For SONY DSC-S650",
+    "productImage": "https://static-01.daraz.com.bd/p/f3eaaa457f47894ae69b6fd6d8584cec.jpg",
+    "availableQuantity": 6,
+    "price": 399.99,
+    "tax": 20.0,
     "category": "cameras"
   },
   {
-    "productName": "Product 3",
-    "productImage": "https://i.ibb.co/pxVZTbH/Pngtree-dslr-digital-camera-8231559.png",
-    "seller": "Seller 3",
+    "productName": "HD 1080P Video Camcorder Handheld Digital Camera 16X Zoom Digital Camera",
+    "productImage": "https://static-01.daraz.com.bd/p/66163461345250cc30f7c3512f6f35a7.jpg",
+    "availableQuantity": 3,
+    "price": 299.99,
+    "tax": 15.0,
+    "category": "cameras"
+  },
+  {
+    "productName": "Canon PowerShot SX500 IS 16.0 MP Digital Camera with 30x Wide-Angle Optical Image Stabilized Zoom and 3.0-Inch LCD (Black)",
+    "productImage": "https://static-01.daraz.com.bd/p/eee76001eb15828eb637c0b322fab8e7.jpg",
+    "availableQuantity": 4,
+    "price": 499.99,
+    "tax": 25.0,
+    "category": "cameras"
+  },
+  {
+    "productName": "Sony Cyber shot DSC-H400 20.1 Mega Pixel 63Xoptical Zoom",
+    "productImage": "https://static-01.daraz.com.bd/p/72d27883c1af06093328cc91af009b2e.jpg",
+    "availableQuantity": 8,
+    "price": 449.99,
+    "tax": 22.5,
+    "category": "cameras"
+  },
+  {
+    "productName": "Yfashion Digital Full HD 16x Digital Camera Professional Video Camcorder Vlogging Camera",
+    "productImage": "https://static-01.daraz.com.bd/p/70de89e7dfae0fdc030ed5c5006f93d2.jpg",
+    "availableQuantity": 5,
+    "price": 599.99,
+    "tax": 30.0,
+    "category": "cameras"
+  },
+  {
+    "productName": "Electronics 1",
+    "productImage": "electronics1.jpg",
+    "availableQuantity": 10,
+    "price": 299.99,
+    "tax": 15.0,
+    "category": "electronics"
+  },
+  {
+    "productName": "Electronics 2",
+    "productImage": "electronics2.jpg",
+    "availableQuantity": 8,
+    "price": 199.99,
+    "tax": 10.0,
+    "category": "electronics"
+  },
+  {
+    "productName": "Electronics 3",
+    "productImage": "electronics3.jpg",
+    "availableQuantity": 5,
+    "price": 499.99,
+    "tax": 25.0,
+    "category": "electronics"
+  },
+  {
+    "productName": "Electronics 4",
+    "productImage": "electronics4.jpg",
+    "availableQuantity": 12,
+    "price": 399.99,
+    "tax": 20.0,
+    "category": "electronics"
+  },
+  {
+    "productName": "Electronics 5",
+    "productImage": "electronics5.jpg",
+    "availableQuantity": 6,
+    "price": 599.99,
+    "tax": 30.0,
+    "category": "electronics"
+  },
+  {
+    "productName": "Computer 1",
+    "productImage": "computer1.jpg",
+    "availableQuantity": 10,
+    "price": 999.99,
+    "tax": 50.0,
+    "category": "computers"
+  },
+  {
+    "productName": "Computer 2",
+    "productImage": "computer2.jpg",
+    "availableQuantity": 8,
+    "price": 799.99,
+    "tax": 40.0,
+    "category": "computers"
+  },
+  {
+    "productName": "Computer 3",
+    "productImage": "computer3.jpg",
+    "availableQuantity": 5,
+    "price": 1499.99,
+    "tax": 75.0,
+    "category": "computers"
+  },
+  {
+    "productName": "Computer 4",
+    "productImage": "computer4.jpg",
+    "availableQuantity": 12,
+    "price": 1299.99,
+    "tax": 65.0,
+    "category": "computers"
+  },
+  {
+    "productName": "Computer 5",
+    "productImage": "computer5.jpg",
+    "availableQuantity": 6,
+    "price": 1799.99,
+    "tax": 90.0,
+    "category": "computers"
+  },
+  {
+    "productName": "Smartphone 1",
+    "productImage": "smartphone1.jpg",
+    "availableQuantity": 10,
+    "price": 699.99,
+    "tax": 35.0,
+    "category": "smartphones"
+  },
+  {
+    "productName": "Smartphone 2",
+    "productImage": "smartphone2.jpg",
+    "availableQuantity": 8,
+    "price": 899.99,
+    "tax": 45.0,
+    "category": "smartphones"
+  },
+  {
+    "productName": "Smartphone 3",
+    "productImage": "smartphone3.jpg",
+    "availableQuantity": 5,
+    "price": 549.99,
+    "tax": 27.5,
+    "category": "smartphones"
+  },
+  {
+    "productName": "Smartphone 4",
+    "productImage": "smartphone4.jpg",
+    "availableQuantity": 12,
+    "price": 999.99,
+    "tax": 50.0,
+    "category": "smartphones"
+  },
+  {
+    "productName": "Smartphone 5",
+    "productImage": "smartphone5.jpg",
+    "availableQuantity": 6,
+    "price": 799.99,
+    "tax": 40.0,
+    "category": "smartphones"
+  },
+  {
+    "productName": "Book 1",
+    "productImage": "book1.jpg",
+    "availableQuantity": 10,
+    "price": 19.99,
+    "tax": 1.0,
+    "category": "books"
+  },
+  {
+    "productName": "Book 2",
+    "productImage": "book2.jpg",
     "availableQuantity": 8,
     "price": 14.99,
-    "category": "electronics"
+    "tax": 0.75,
+    "category": "books"
+  },
+  {
+    "productName": "Book 3",
+    "productImage": "book3.jpg",
+    "availableQuantity": 5,
+    "price": 24.99,
+    "tax": 1.25,
+    "category": "books"
+  },
+  {
+    "productName": "Book 4",
+    "productImage": "book4.jpg",
+    "availableQuantity": 12,
+    "price": 29.99,
+    "tax": 1.5,
+    "category": "books"
+  },
+  {
+    "productName": "Book 5",
+    "productImage": "book5.jpg",
+    "availableQuantity": 6,
+    "price": 17.99,
+    "tax": 0.9,
+    "category": "books"
+  },
+  {
+    "productName": "Outdoor 1",
+    "productImage": "outdoor1.jpg",
+    "availableQuantity": 10,
+    "price": 49.99,
+    "tax": 2.5,
+    "category": "outdoors"
+  },
+  {
+    "productName": "Outdoor 2",
+    "productImage": "outdoor2.jpg",
+    "availableQuantity": 8,
+    "price": 39.99,
+    "tax": 2.0,
+    "category": "outdoors"
+  },
+  {
+    "productName": "Outdoor 3",
+    "productImage": "outdoor3.jpg",
+    "availableQuantity": 5,
+    "price": 59.99,
+    "tax": 3.0,
+    "category": "outdoors"
+  },
+  {
+    "productName": "Outdoor 4",
+    "productImage": "outdoor4.jpg",
+    "availableQuantity": 12,
+    "price": 79.99,
+    "tax": 4.0,
+    "category": "outdoors"
+  },
+  {
+    "productName": "Outdoor 5",
+    "productImage": "outdoor5.jpg",
+    "availableQuantity": 6,
+    "price": 69.99,
+    "tax": 3.5,
+    "category": "outdoors"
+  },
+  {
+    "productName": "Toy 1",
+    "productImage": "toy1.jpg",
+    "availableQuantity": 10,
+    "price": 29.99,
+    "tax": 1.5,
+    "category": "toys"
+  },
+  {
+    "productName": "Toy 2",
+    "productImage": "toy2.jpg",
+    "availableQuantity": 8,
+    "price": 19.99,
+    "tax": 1.0,
+    "category": "toys"
+  },
+  {
+    "productName": "Toy 3",
+    "productImage": "toy3.jpg",
+    "availableQuantity": 5,
+    "price": 39.99,
+    "tax": 2.0,
+    "category": "toys"
+  },
+  {
+    "productName": "Toy 4",
+    "productImage": "toy4.jpg",
+    "availableQuantity": 12,
+    "price": 24.99,
+    "tax": 1.25,
+    "category": "toys"
+  },
+  {
+    "productName": "Toy 5",
+    "productImage": "toy5.jpg",
+    "availableQuantity": 6,
+    "price": 34.99,
+    "tax": 1.75,
+    "category": "toys"
+  },
+  {
+    "productName": "Craft 1",
+    "productImage": "craft1.jpg",
+    "availableQuantity": 10,
+    "price": 14.99,
+    "tax": 0.75,
+    "category": "crafts"
+  },
+  {
+    "productName": "Craft 2",
+    "productImage": "craft2.jpg",
+    "availableQuantity": 8,
+    "price": 9.99,
+    "tax": 0.5,
+    "category": "crafts"
+  },
+  {
+    "productName": "Craft 3",
+    "productImage": "craft3.jpg",
+    "availableQuantity": 5,
+    "price": 19.99,
+    "tax": 1.0,
+    "category": "crafts"
+  },
+  {
+    "productName": "Craft 4",
+    "productImage": "craft4.jpg",
+    "availableQuantity": 12,
+    "price": 12.99,
+    "tax": 0.65,
+    "category": "crafts"
+  },
+  {
+    "productName": "Craft 5",
+    "productImage": "craft5.jpg",
+    "availableQuantity": 6,
+    "price": 16.99,
+    "tax": 0.85,
+    "category": "crafts"
   }
 ]

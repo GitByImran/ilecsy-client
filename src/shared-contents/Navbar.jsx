@@ -46,7 +46,7 @@ const authMenus = [
 const userMenus = [
   {
     label: "Dashboard",
-    goto: "/dashboard",
+    goto: "/dashboard/profile",
     icon: <DashboardCustomizeOutlinedIcon />,
   },
   { label: "Sign out", goto: "/", icon: <LogoutIcon />, action: true },
@@ -82,7 +82,7 @@ const Navbar = () => {
   return (
     <AppBar
       position="static"
-      sx={{ background: "none", boxShadow: "none", paddingY: 2 }}
+      sx={{ background: "#377a83", boxShadow: "none", paddingY: 2 }}
     >
       <Container>
         <Toolbar
@@ -98,7 +98,7 @@ const Navbar = () => {
             <Box>
               <IconButton
                 edge="start"
-                color="#000"
+                color="#fff"
                 aria-label="menu"
                 onClick={handleMenuOpen}
               >
@@ -148,7 +148,7 @@ const Navbar = () => {
           )}
 
           {/* Logo */}
-          <Typography variant="" color="#000" fontSize={30} fontWeight={700}>
+          <Typography variant="" color="#fff" fontSize={30} fontWeight={700}>
             ILECSY
           </Typography>
 
@@ -161,7 +161,7 @@ const Navbar = () => {
                   to={menu.goto}
                   fontFamily="Exo 2 !important"
                   sx={{
-                    color: "#000",
+                    color: "#fff",
                     fontSize: "16px !important",
                     padding: "0px",
                     margin: "0px",
@@ -181,7 +181,7 @@ const Navbar = () => {
                 to="/dashboard/cart"
                 fontFamily="Exo 2 !important"
                 sx={{
-                  color: "#000",
+                  color: "#fff",
                   fontSize: "20px !important",
                   padding: "0px",
                   margin: "0px",
@@ -190,7 +190,7 @@ const Navbar = () => {
               >
                 <IconButton aria-label="cart">
                   <StyledBadge badgeContent={4} color="secondary">
-                    <AddShoppingCartIcon sx={{ color: "#000" }} />
+                    <AddShoppingCartIcon sx={{ color: "#fff" }} />
                   </StyledBadge>
                 </IconButton>
               </Button>
@@ -207,7 +207,7 @@ const Navbar = () => {
                       to={menu.goto}
                       fontFamily="Exo 2 !important"
                       sx={{
-                        color: "#000",
+                        color: "#fff",
                         fontSize: "20px !important",
                         padding: "0px",
                         margin: "0px",
@@ -230,7 +230,7 @@ const Navbar = () => {
                       onClick={menu.action && handleLogout}
                       fontFamily="Exo 2 !important"
                       sx={{
-                        color: "#000",
+                        color: "#fff",
                         fontSize: "20px !important",
                         padding: "0px",
                         margin: "0px",

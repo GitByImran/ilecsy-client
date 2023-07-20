@@ -17,11 +17,19 @@ const Products = ({ prodCat }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [productData, setProductData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/products.json");
+        const response = await axios.get(
+          "http://localhost:5000/products", //https://ilecsy-server.vercel.app/products
+          {
+            headers: {
+              authorization: `bearer ${token}`,
+            },
+          }
+        );
         setProductData(response.data);
       } catch (error) {
         console.error("Error fetching product data:", error);
@@ -71,14 +79,29 @@ const Products = ({ prodCat }) => {
           marginY: 5,
         }}
       >
-        {filteredData.slice(0, 12).map((product, index) => (
+        {filteredData.slice(0, 6).map((product, index) => (
           <Card key={index}>
             <CardContent>
               <CardMedia sx={{ display: "flex", justifyContent: "center" }}>
-                <img src={product.productImage} alt={product.productName} />
+                <img
+                  src={product.productImage}
+                  alt={product.productName}
+                  style={{
+                    maxHeight: "300px",
+                    maxWidth: "300px",
+                    objectFit: "cover",
+                  }}
+                />
               </CardMedia>
               <Box mt={5} mb={2}>
-                <Typography>{product.productName}</Typography>
+                <Typography
+                  maxWidth="300px"
+                  overflow="hidden"
+                  whiteSpace="nowrap"
+                  textOverflow="ellipsis"
+                >
+                  {product.productName}
+                </Typography>
                 <Typography>
                   Available quantity : {product.availableQuantity}
                 </Typography>

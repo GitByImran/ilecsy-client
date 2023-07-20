@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { styled } from "@mui/material/styles";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./Provider";
+import axios from "axios";
 
 const Style = styled("div")(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
@@ -29,6 +30,7 @@ const Style = styled("div")(({ theme }) => ({
 
 const Signup = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -40,16 +42,31 @@ const Signup = () => {
     const { email, password, name } = data;
     createUser(email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
+        const cuerrentUser = userCredential.user;
         updateUserProfile(name)
           .then((user) => {
             console.log("User name updated successfully");
+            console.log(cuerrentUser);
+
+            axios
+              .post("http://localhost:5000/users", {
+                name: cuerrentUser.displayName,
+                email: cuerrentUser.email,
+                role: "user",
+              })
+              .then((response) => {
+                console.log(response.data);
+              })
+              .catch((error) => {
+                console.log("Error sending POST request:", error);
+              });
+
             reset();
+            navigate("/signin");
           })
           .catch((error) => {
             console.log("Error updating user name:", error);
           });
-        console.log(user);
       })
       .catch((error) => {
         console.log("Error creating user:", error);
