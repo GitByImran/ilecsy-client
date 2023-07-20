@@ -1,8 +1,8 @@
 import React from "react";
 import Unbuild from "../../../public/Unbuild";
 
-const MyOrders = () => {
+const AddProducts = () => {
   return <Unbuild />;
 };
 
-export default MyOrders;
+export default AddProducts;

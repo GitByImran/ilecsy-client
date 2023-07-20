@@ -1,11 +1,7 @@
 import React from "react";
-
+import Unbuild from "../../../public/Unbuild";
 const PaymentHistory = () => {
-  return (
-    <div>
-      <h2>payment history</h2>
-    </div>
-  );
+  return <Unbuild />;
 };
 
 export default PaymentHistory;

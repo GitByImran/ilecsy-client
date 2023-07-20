@@ -1,11 +1,8 @@
 import React from "react";
+import Unbuild from "../../../public/Unbuild";
 
 const CompleteOrders = () => {
-  return (
-    <div>
-      <h2>completed orders</h2>
-    </div>
-  );
+  return <Unbuild />;
 };
 
 export default CompleteOrders;

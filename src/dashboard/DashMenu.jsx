@@ -14,6 +14,7 @@ import "../index.css";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { BiCategory } from "react-icons/bi";
 import {
   MdOutlinePayments,
   MdOutlineProductionQuantityLimits,
@@ -23,6 +24,7 @@ import { PiUsersThreeBold } from "react-icons/pi";
 import { MdPendingActions } from "react-icons/md";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GoNote } from "react-icons/go";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 const DashMenu = () => {
   return (
@@ -72,6 +74,18 @@ const DashMenu = () => {
               <PiUsersThreeBold fontSize={30} />
             </ListItemIcon>
             <ListItemText primary="Manage users" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/dashboard/manage-products">
+            <ListItemIcon>
+              <BiCategory fontSize={30} />
+            </ListItemIcon>
+            <ListItemText primary="Manage products" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/dashboard/add-products">
+            <ListItemIcon>
+              <IoMdAddCircleOutline fontSize={30} />
+            </ListItemIcon>
+            <ListItemText primary="Add products" />
           </ListItemButton>
           <ListItemButton component={Link} to="/dashboard/all-orders">
             <ListItemIcon>

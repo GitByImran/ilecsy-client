@@ -1,11 +1,8 @@
 import React from "react";
+import Unbuild from "../../../public/Unbuild";
 
 const ManageUser = () => {
-  return (
-    <div>
-      <h2>manage users</h2>
-    </div>
-  );
+  return <Unbuild />;
 };
 
 export default ManageUser;

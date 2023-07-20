@@ -1,11 +1,8 @@
 import React from "react";
+import Unbuild from "../../../public/Unbuild";
 
 const MakePayment = () => {
-  return (
-    <div>
-      <h2>make payments</h2>
-    </div>
-  );
+  return <Unbuild />;
 };
 
 export default MakePayment;

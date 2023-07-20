@@ -14,6 +14,8 @@ import Allorders from "../dashboard/admin/Allorders";
 import PendingOrders from "../dashboard/admin/PendingOrders";
 import CompleteOrders from "../dashboard/admin/CompleteOrders";
 import Profile from "../dashboard/dashboard-components/Profile";
+import AddProducts from "../dashboard/admin/AddProducts";
+import ManageProduct from "../dashboard/admin/ManageProduct";
 
 const Routes = createBrowserRouter([
   {
@@ -65,6 +67,14 @@ const Routes = createBrowserRouter([
       {
         path: "/dashboard/manage-users",
         element: <ManageUser />,
+      },
+      {
+        path: "/dashboard/manage-products",
+        element: <ManageProduct />,
+      },
+      {
+        path: "/dashboard/add-products",
+        element: <AddProducts />,
       },
       {
         path: "/dashboard/all-orders",
