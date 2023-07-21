@@ -34,8 +34,8 @@ const Dashboard = (props) => {
       <AppBar
         position="fixed"
         sx={{
-          background: "none",
-          boxShadow: "none",
+          background: "#fff",
+          boxShadow: "",
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
@@ -48,7 +48,7 @@ const Dashboard = (props) => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{ color: "#000" }} />
           </IconButton>
           <Typography variant="h6" color="#000" noWrap component="div">
             {path[1] + " ↦ " + path[2]}

@@ -62,7 +62,6 @@ const Provider = ({ children }) => {
             }
           )
           .then((data) => {
-            console.log(data);
             localStorage.setItem("token", data.data.token);
           });
         setUserFound(true);

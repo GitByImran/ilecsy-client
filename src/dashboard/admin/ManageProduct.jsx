@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Unbuild from "../../../public/Unbuild";
 import axios from "axios";
 import {
   Box,
@@ -13,11 +12,16 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Modal,
+  Grid,
+  TextField,
 } from "@mui/material";
 
 const ManageProduct = () => {
   const [products, setProducts] = useState([]);
   const [selectedOption, setSelectedOption] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("Watches");
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     axios
@@ -37,6 +41,19 @@ const ManageProduct = () => {
     selectedOption === "All"
       ? products
       : products.filter((product) => product.category === selectedOption);
+
+  const handleUpdateButtonClick = () => {
+    setOpenModal(true);
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
+
+  const handleUpdateDetails = (data) => {
+    console.log("Updated Details:", data);
+    setOpenModal(false);
+  };
 
   return (
     <Box>
@@ -105,7 +122,11 @@ const ManageProduct = () => {
                       gap: 1,
                     }}
                   >
-                    <Button variant="contained" size="small">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={handleUpdateButtonClick}
+                    >
                       Update
                     </Button>
                     <Button variant="contained" size="small">
@@ -118,6 +139,113 @@ const ManageProduct = () => {
           </TableBody>
         </Table>
       )}
+
+      {/* modal box */}
+      <Modal open={openModal} onClose={handleModalClose}>
+        <Box
+          sx={{
+            background: "#fff",
+            padding: "30px",
+            borderRadius: "8px",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <form onSubmit={handleUpdateDetails}>
+            <Grid container spacing={2}>
+              {/* Product Name */}
+              <Grid item xs={12}>
+                <TextField
+                  label="Product Name"
+                  fullWidth
+                  placeholder="Enter Product Name"
+                  // Other properties like value, onChange, etc. for productName field
+                />
+              </Grid>
+
+              {/* Product Image */}
+              <Grid item xs={12}>
+                <TextField
+                  label="Product Image"
+                  fullWidth
+                  placeholder="Enter Product Image URL"
+                  // Other properties like value, onChange, etc. for productImage field
+                />
+              </Grid>
+
+              {/* Available Quantity */}
+              <Grid item xs={12}>
+                <TextField
+                  label="Available Quantity"
+                  fullWidth
+                  placeholder="Enter Available Quantity"
+                  type="number"
+                  // Other properties like value, onChange, etc. for availableQuantity field
+                />
+              </Grid>
+
+              {/* Price */}
+              <Grid item xs={12}>
+                <TextField
+                  label="Price"
+                  fullWidth
+                  placeholder="Enter Price"
+                  type="number"
+                  // Other properties like value, onChange, etc. for price field
+                />
+              </Grid>
+
+              {/* Tax */}
+              <Grid item xs={12}>
+                <TextField
+                  label="Tax"
+                  fullWidth
+                  placeholder="Enter Tax"
+                  type="number"
+                  // Other properties like value, onChange, etc. for tax field
+                />
+              </Grid>
+
+              {/* Category */}
+              <Grid item xs={12}>
+                <FormControl fullWidth>
+                  <Select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                  >
+                    <MenuItem value="select" disabled>
+                      Select Category
+                    </MenuItem>
+                    <MenuItem value="watches">Watches</MenuItem>
+                    <MenuItem value="cameras">Cameras</MenuItem>
+                    <MenuItem value="electronics">Electronics</MenuItem>
+                    <MenuItem value="computers">Computers</MenuItem>
+                    <MenuItem value="smartphones">Smartphones</MenuItem>
+                    <MenuItem value="books">Books</MenuItem>
+                    <MenuItem value="outdoors">Outdoors</MenuItem>
+                    <MenuItem value="toys">Toys</MenuItem>
+                    <MenuItem value="crafts">Crafts</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              {/* Update Details Button */}
+              <Grid item xs={12}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                >
+                  Update Details
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Box>
+      </Modal>
     </Box>
   );
 };
