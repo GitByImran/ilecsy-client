@@ -7,9 +7,10 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import React from "react";
+import React, { useContext } from "react";
 import "../index.css";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
@@ -23,87 +24,141 @@ import { RiHistoryFill } from "react-icons/ri";
 import { PiUsersThreeBold } from "react-icons/pi";
 import { MdPendingActions } from "react-icons/md";
 import { TbTruckDelivery } from "react-icons/tb";
-import { GoNote } from "react-icons/go";
+import { GoHome, GoNote } from "react-icons/go";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { AuthContext } from "../authentication/Provider";
+import { ProgressBar } from "react-loader-spinner";
 
 const DashMenu = () => {
+  const { loading, isAdmin } = useContext(AuthContext);
   return (
     <Box>
-      <Toolbar />
+      <Toolbar>
+        {loading ? (
+          <ProgressBar
+            height="80"
+            width="80"
+            ariaLabel="progress-bar-loading"
+            wrapperStyle={{}}
+            wrapperClass="progress-bar-wrapper"
+            borderColor="#ddd"
+            barColor="#aaa"
+          />
+        ) : (
+          <Typography
+            color="#000"
+            fontFamily="Exo 2 !important"
+            fontSize={30}
+            fontWeight={700}
+            marginLeft={2}
+          >
+            ILECSY
+          </Typography>
+        )}
+      </Toolbar>
       {/* <Divider /> */}
       <List>
+        {isAdmin ? (
+          <ListItem
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }}
+          >
+            <ListItemButton component={Link} to="/dashboard/manage-users">
+              <ListItemIcon>
+                <PiUsersThreeBold fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="Manage users" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/dashboard/manage-products">
+              <ListItemIcon>
+                <BiCategory fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="Manage products" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/dashboard/add-products">
+              <ListItemIcon>
+                <IoMdAddCircleOutline fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="Add products" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/dashboard/all-orders">
+              <ListItemIcon>
+                <GoNote fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="All Orders" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/dashboard/pending-orders">
+              <ListItemIcon>
+                <MdPendingActions fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="Pending orders" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/dashboard/complete-orders">
+              <ListItemIcon>
+                <TbTruckDelivery fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="Complete orders" />
+            </ListItemButton>
+          </ListItem>
+        ) : (
+          <ListItem
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+            }}
+          >
+            <ListItemButton component={Link} to="/dashboard/cart">
+              <ListItemIcon>
+                <AiOutlineShoppingCart fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="My cart" />
+            </ListItemButton>
+            {/* <ListItemButton component={Link} to="/dashboard/make-payment">
+              <ListItemIcon>
+                <MdOutlinePayments fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="Make payment" />
+            </ListItemButton> */}
+            <ListItemButton component={Link} to="/dashboard/payment-history">
+              <ListItemIcon>
+                <RiHistoryFill fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="Payment history" />
+            </ListItemButton>
+            <ListItemButton component={Link} to="/dashboard/my-orders">
+              <ListItemIcon>
+                <MdOutlineProductionQuantityLimits fontSize={20} />
+              </ListItemIcon>
+              <ListItemText primary="My orders" />
+            </ListItemButton>
+          </ListItem>
+        )}
+
         <ListItem
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
+            position: "fixed",
+            bottom: 0,
+            width: "27%",
           }}
         >
           <ListItemButton component={Link} to="/dashboard/profile">
             <ListItemIcon>
-              <CgProfile fontSize={30} />
+              <CgProfile fontSize={20} />
             </ListItemIcon>
             <ListItemText primary="Profile" />
           </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/cart">
+          <ListItemButton component={Link} to="/">
             <ListItemIcon>
-              <AiOutlineShoppingCart fontSize={30} />
+              <GoHome fontSize={20} />
             </ListItemIcon>
-            <ListItemText primary="My cart" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/make-payment">
-            <ListItemIcon>
-              <MdOutlinePayments fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="Make payment" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/payment-history">
-            <ListItemIcon>
-              <RiHistoryFill fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="Payment history" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/my-orders">
-            <ListItemIcon>
-              <MdOutlineProductionQuantityLimits fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="My orders" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/manage-users">
-            <ListItemIcon>
-              <PiUsersThreeBold fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="Manage users" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/manage-products">
-            <ListItemIcon>
-              <BiCategory fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="Manage products" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/add-products">
-            <ListItemIcon>
-              <IoMdAddCircleOutline fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="Add products" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/all-orders">
-            <ListItemIcon>
-              <GoNote fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="All Orders" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/pending-orders">
-            <ListItemIcon>
-              <MdPendingActions fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="Pending orders" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/dashboard/complete-orders">
-            <ListItemIcon>
-              <TbTruckDelivery fontSize={30} />
-            </ListItemIcon>
-            <ListItemText primary="Complete orders" />
+            <ListItemText primary="Back to home" />
           </ListItemButton>
         </ListItem>
       </List>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -61,11 +61,13 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-  const { userFound, user, logOut } = useContext(AuthContext);
+  const { userFound, user, logOut, cart } = useContext(AuthContext);
   const [showMenu, setShowMenu] = useState(null);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  console.log(cart);
 
   const handleLogout = () => {
     logOut();
@@ -189,7 +191,10 @@ const Navbar = () => {
                 }}
               >
                 <IconButton aria-label="cart">
-                  <StyledBadge badgeContent={4} color="secondary">
+                  <StyledBadge
+                    badgeContent={cart?.length ? cart.length : "0"}
+                    color="secondary"
+                  >
                     <AddShoppingCartIcon sx={{ color: "#fff" }} />
                   </StyledBadge>
                 </IconButton>

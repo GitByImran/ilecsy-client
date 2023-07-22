@@ -19,7 +19,6 @@ import {
 
 const Allorders = () => {
   const [products, setProducts] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("All");
 
   useEffect(() => {
     axios
@@ -31,20 +30,11 @@ const Allorders = () => {
         console.error("Error fetching product data:", error);
       });
   }, []);
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const handleUpdateButtonClick = () => {
-    setOpenModal(true);
-  };
 
   return (
     <Box>
       {products.length === 0 ? (
-        <Typography variant="body1">
-          Sorry, no products available in this category.
-        </Typography>
+        <Typography variant="body1">Wait a while please...</Typography>
       ) : (
         <Table>
           <TableHead>

@@ -9,9 +9,11 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../authentication/Provider";
 
 const Products = ({ prodCat }) => {
+  const { cart, updateCart } = useContext(AuthContext);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -49,6 +51,15 @@ const Products = ({ prodCat }) => {
       setFilteredData(productData);
     }
   }, [prodCat, productData]);
+
+  const HandleAddToCart = (id) => {
+    const selectedProduct = filteredData.find((product) => product._id === id);
+    if (!selectedProduct || cart.some((item) => item._id === id)) {
+      return;
+    }
+    const updatedCart = [...cart, selectedProduct];
+    updateCart(updatedCart);
+  };
 
   return (
     <Box>
@@ -107,7 +118,22 @@ const Products = ({ prodCat }) => {
                 </Typography>
                 <Typography>Price : {product.price}</Typography>
               </Box>
-              <Button variant="outlined">details</Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  onClick={() => HandleAddToCart(product._id)}
+                >
+                  Add to cart
+                </Button>
+                <Button variant="outlined">details</Button>
+              </Box>
             </CardContent>
           </Card>
         ))}

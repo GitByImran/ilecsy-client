@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -76,69 +76,63 @@ const ManageProduct = () => {
         </Select>
       </FormControl>
 
-      {filteredProducts.length === 0 ? (
-        <Typography variant="body1">
-          Sorry, no products available in this category.
-        </Typography>
-      ) : (
-        <Table>
-          <TableHead>
-            {/* <TableCell>Product ID</TableCell> */}
-            <TableCell>Product Image</TableCell>
-            <TableCell>Product Name</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>tax</TableCell>
-            <TableCell>Available</TableCell>
-            <TableCell>Action</TableCell>
-          </TableHead>
-          <TableBody>
-            {filteredProducts.map((product, index) => (
-              <TableRow key={index}>
-                {/* <TableCell>{index + 1}</TableCell> */}
-                <TableCell>
-                  <img
-                    src={product.productImage}
-                    alt={product.productName}
-                    style={{ width: "75px", height: "75px" }}
-                  />
-                </TableCell>
-                <TableCell
+      <Table>
+        <TableHead>
+          {/* <TableCell>Product ID</TableCell> */}
+          <TableCell>Product Image</TableCell>
+          <TableCell>Product Name</TableCell>
+          <TableCell>Price</TableCell>
+          <TableCell>tax</TableCell>
+          <TableCell>Available</TableCell>
+          <TableCell>Action</TableCell>
+        </TableHead>
+        <TableBody>
+          {filteredProducts.map((product, index) => (
+            <TableRow key={index}>
+              {/* <TableCell>{index + 1}</TableCell> */}
+              <TableCell>
+                <img
+                  src={product.productImage}
+                  alt={product.productName}
+                  style={{ width: "75px", height: "75px" }}
+                />
+              </TableCell>
+              <TableCell
+                sx={{
+                  maxWidth: "300px",
+                  overflow: "hidden",
+                  whiteSpace: "wrap",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {product.productName}
+              </TableCell>
+              <TableCell>${product.price}</TableCell>
+              <TableCell>${product.tax}</TableCell>
+              <TableCell>{product.availableQuantity}</TableCell>
+              <TableCell>
+                <Box
                   sx={{
-                    maxWidth: "300px",
-                    overflow: "hidden",
-                    whiteSpace: "wrap",
-                    textOverflow: "ellipsis",
+                    display: "flex",
+                    gap: 1,
                   }}
                 >
-                  {product.productName}
-                </TableCell>
-                <TableCell>${product.price}</TableCell>
-                <TableCell>${product.tax}</TableCell>
-                <TableCell>{product.availableQuantity}</TableCell>
-                <TableCell>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                    }}
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={handleUpdateButtonClick}
                   >
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={handleUpdateButtonClick}
-                    >
-                      Update
-                    </Button>
-                    <Button variant="contained" size="small">
-                      delete
-                    </Button>
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
+                    Update
+                  </Button>
+                  <Button variant="contained" size="small">
+                    delete
+                  </Button>
+                </Box>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
       {/* modal box */}
       <Modal open={openModal} onClose={handleModalClose}>
@@ -161,7 +155,6 @@ const ManageProduct = () => {
                   label="Product Name"
                   fullWidth
                   placeholder="Enter Product Name"
-                  // Other properties like value, onChange, etc. for productName field
                 />
               </Grid>
 
@@ -171,7 +164,6 @@ const ManageProduct = () => {
                   label="Product Image"
                   fullWidth
                   placeholder="Enter Product Image URL"
-                  // Other properties like value, onChange, etc. for productImage field
                 />
               </Grid>
 
@@ -182,7 +174,6 @@ const ManageProduct = () => {
                   fullWidth
                   placeholder="Enter Available Quantity"
                   type="number"
-                  // Other properties like value, onChange, etc. for availableQuantity field
                 />
               </Grid>
 
@@ -193,7 +184,6 @@ const ManageProduct = () => {
                   fullWidth
                   placeholder="Enter Price"
                   type="number"
-                  // Other properties like value, onChange, etc. for price field
                 />
               </Grid>
 
@@ -204,7 +194,6 @@ const ManageProduct = () => {
                   fullWidth
                   placeholder="Enter Tax"
                   type="number"
-                  // Other properties like value, onChange, etc. for tax field
                 />
               </Grid>
 

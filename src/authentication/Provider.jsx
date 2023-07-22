@@ -23,8 +23,9 @@ const Provider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [userFound, setUserFound] = useState(false);
   const [userNotFound, setUserNotFound] = useState(false);
-
   const [loading, setLoading] = useState(true);
+  const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+  const [cart, setCart] = useState(existingCartData);
 
   const createUser = (displayName, email, password) => {
     setLoading(true);
@@ -74,6 +75,7 @@ const Provider = ({ children }) => {
               (item) => item.email === loggedUser.email
             );
             setUserData(foundUser);
+            console.log(userData);
             if (foundUser && foundUser.role === "admin") {
               setIsAdmin(true);
             } else {
@@ -97,6 +99,17 @@ const Provider = ({ children }) => {
     return updateProfile(auth.currentUser, { displayName });
   };
 
+  // Function to update the cart and update localStorage
+  const updateCart = (newCart) => {
+    setCart(newCart);
+    localStorage.setItem("cart", JSON.stringify(newCart));
+  };
+
+  // Watch for changes in the cart state and update localStorage
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
   const authInfo = {
     auth,
     user,
@@ -111,6 +124,8 @@ const Provider = ({ children }) => {
     updateUserProfile,
     userFound,
     userNotFound,
+    cart,
+    updateCart,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
