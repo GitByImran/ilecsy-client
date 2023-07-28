@@ -22,6 +22,7 @@ const ManageProduct = () => {
   const [selectedOption, setSelectedOption] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("Watches");
   const [openModal, setOpenModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     axios
@@ -42,7 +43,8 @@ const ManageProduct = () => {
       ? products
       : products.filter((product) => product.category === selectedOption);
 
-  const handleUpdateButtonClick = () => {
+  const handleUpdateButtonClick = (product) => {
+    setSelectedProduct(product);
     setOpenModal(true);
   };
 
@@ -120,7 +122,7 @@ const ManageProduct = () => {
                   <Button
                     variant="contained"
                     size="small"
-                    onClick={handleUpdateButtonClick}
+                    onClick={() => handleUpdateButtonClick(product)}
                   >
                     Update
                   </Button>
@@ -154,7 +156,7 @@ const ManageProduct = () => {
                 <TextField
                   label="Product Name"
                   fullWidth
-                  placeholder="Enter Product Name"
+                  placeholder={selectedProduct?.productName}
                 />
               </Grid>
 
@@ -172,7 +174,7 @@ const ManageProduct = () => {
                 <TextField
                   label="Available Quantity"
                   fullWidth
-                  placeholder="Enter Available Quantity"
+                  placeholder={selectedProduct?.availableQuantity}
                   type="number"
                 />
               </Grid>
@@ -182,7 +184,7 @@ const ManageProduct = () => {
                 <TextField
                   label="Price"
                   fullWidth
-                  placeholder="Enter Price"
+                  placeholder={selectedProduct?.price}
                   type="number"
                 />
               </Grid>
@@ -192,7 +194,7 @@ const ManageProduct = () => {
                 <TextField
                   label="Tax"
                   fullWidth
-                  placeholder="Enter Tax"
+                  placeholder={selectedProduct?.tax}
                   type="number"
                 />
               </Grid>
@@ -200,12 +202,9 @@ const ManageProduct = () => {
               {/* Category */}
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <Select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                  >
+                  <Select onChange={(e) => setSelectedCategory(e.target.value)}>
                     <MenuItem value="select" disabled>
-                      Select Category
+                      {selectedProduct?.category}
                     </MenuItem>
                     <MenuItem value="watches">Watches</MenuItem>
                     <MenuItem value="cameras">Cameras</MenuItem>

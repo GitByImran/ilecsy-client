@@ -72,9 +72,7 @@ const Products = ({ prodCat }) => {
             textTransform: "capitalize",
           }}
         >
-          {filteredData[0]
-            ? filteredData[0].category
-            : "sorry, no product here"}
+          {filteredData[0] ? filteredData[0].category : "loading..."}
         </b>
       </Typography>
 
