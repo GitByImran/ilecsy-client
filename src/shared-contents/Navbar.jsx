@@ -61,13 +61,13 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-  const { userFound, user, logOut, cart } = useContext(AuthContext);
+  const { isAdmin, userFound, user, logOut, cart } = useContext(AuthContext);
   const [showMenu, setShowMenu] = useState(null);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log(cart);
+  // console.log(cart);
 
   const handleLogout = () => {
     logOut();
@@ -178,27 +178,27 @@ const Navbar = () => {
                   </Typography>
                 </Button>
               ))}
-              <Button
-                component={Link}
-                to="/dashboard/cart"
-                fontFamily="Exo 2 !important"
-                sx={{
-                  color: "#fff",
-                  fontSize: "20px !important",
-                  padding: "0px",
-                  margin: "0px",
-                  minWidth: "0px",
-                }}
-              >
-                <IconButton aria-label="cart">
-                  <StyledBadge
-                    badgeContent={cart?.length ? cart.length : "0"}
-                    color="secondary"
-                  >
-                    <AddShoppingCartIcon sx={{ color: "#fff" }} />
-                  </StyledBadge>
-                </IconButton>
-              </Button>
+              {user && !isAdmin && (
+                <Button
+                  component={Link}
+                  to="/dashboard/cart"
+                  fontFamily="Exo 2 !important"
+                  sx={{
+                    color: "#fff",
+                    fontSize: "16px !important",
+                    padding: "0px",
+                    margin: "0px",
+                    minWidth: "0px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <AddShoppingCartIcon />
+                  <Typography fontSize="13px !important" fontWeight="bold">
+                    My cart
+                  </Typography>
+                </Button>
+              )}
             </Box>
           )}
 

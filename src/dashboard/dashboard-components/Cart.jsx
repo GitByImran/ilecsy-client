@@ -10,15 +10,15 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../authentication/Provider";
+import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { AuthContext } from "../../authentication/Provider";
+
 
 const Cart = () => {
-  const { cart, updateCart } = useContext(AuthContext);
-
   const [quantities, setQuantities] = useState({});
+  const [selectedCart, setSelectedCart] = useState({});
+  const { user } = useContext(AuthContext)
 
   const handleIncreaseQuantity = (id) => {
     setQuantities((prevQuantities) => ({
@@ -34,30 +34,86 @@ const Cart = () => {
     }));
   };
 
-  const handleDelete = (id) => {
-    const updatedCart = cart.filter((product) => product._id !== id);
-    updateCart(updatedCart);
+  const calculateTotalPrice = (item) => {
+    const quantity = quantities[item._id] || 0;
+    return item.price * quantity;
   };
 
-  const calculateTotalPrice = (product) => {
-    const quantity = quantities[product._id] || 0;
-    const totalPrice = quantity * product.price;
-    return Number(totalPrice.toFixed(2));
-  };
-
-  const calculateTotalTax = (product) => {
-    const quantity = quantities[product._id] || 0;
-    const totalTax = quantity * product.tax;
-    return Number(totalTax.toFixed(2));
+  const calculateTotalTax = (item) => {
+    const quantity = quantities[item._id] || 0;
+    return item.tax * quantity;
   };
 
   const calculateOverallTotalPrice = () => {
-    return cart.reduce((total, product) => {
-      const totalPrice = calculateTotalPrice(product);
-      const alloverPrice = total + totalPrice;
-      return Number(alloverPrice.toFixed(2));
-    }, 0);
+    let totalPrice = 0;
+    let totalTax = 0;
+
+    Object.values(selectedCart).forEach((item) => {
+      const quantity = quantities[item._id] || 0;
+      totalPrice += item.price * quantity;
+      totalTax += item.tax * quantity;
+    });
+
+    return (totalPrice + totalTax);
   };
+
+
+  const overallTotalPrice = Math.round(calculateOverallTotalPrice()) - 1;
+
+  const handleMakePayment = (data) => {
+    const hasZeroPrice = Object.values(data).some((item) => calculateTotalPrice(item) === 0);
+
+    if (hasZeroPrice) {
+      alert("Please select at least one quantity for each item or delete the unnecessary item.");
+      return
+    }
+    else {
+      const url = `/dashboard/make-payment?countOn=${overallTotalPrice}`;
+      window.location.href = url;
+    }
+
+  };
+
+  useEffect(() => {
+    const getItemFromcart = JSON.parse(localStorage.getItem("userData"));
+    // console.log(getItemFromcart)
+    if (getItemFromcart) {
+      const productArray = getItemFromcart[user?.email];
+      setSelectedCart(productArray || []);
+    }
+  }, []);
+
+
+  const updateCartData = (updatedSelectedCart) => {
+    setSelectedCart(updatedSelectedCart);
+
+    const getItemFromcart = JSON.parse(localStorage.getItem("userData"));
+    if (getItemFromcart) {
+      getItemFromcart[user?.email] = updatedSelectedCart;
+      localStorage.setItem("userData", JSON.stringify(getItemFromcart));
+    }
+  };
+
+  const handleDelete = (id) => {
+    const updatedSelectedCart = selectedCart.filter((item) => item._id !== id);
+    updateCartData(updatedSelectedCart);
+
+    const updatedQuantities = { ...quantities };
+    delete updatedQuantities[id];
+    localStorage.setItem("cartQuantities", JSON.stringify(updatedQuantities));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("cartQuantities", JSON.stringify(quantities));
+  }, [quantities]);
+
+  useEffect(() => {
+    const storedQuantities = JSON.parse(localStorage.getItem("cartQuantities"));
+    if (storedQuantities) {
+      setQuantities(storedQuantities);
+    }
+  }, []);
+  console.log(selectedCart)
 
   return (
     <Box>
@@ -75,36 +131,43 @@ const Cart = () => {
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
+          {Object.keys(selectedCart).length === 0 && (
+            <Typography m={3} display="block" width="max-content">
+              no product selected
+            </Typography>
+          )}
           <TableBody>
-            {cart.map((product) => (
-              <TableRow key={product._id}>
+            {Array.isArray(selectedCart) && selectedCart.map((item) => (
+              <TableRow key={item._id}>
+
                 <TableCell>
                   <img
-                    src={product.productImage}
-                    alt={product.productName}
+                    src={item.productImage}
+                    alt={item.productName}
                     style={{ width: "75px", height: "75px" }}
                   />
                 </TableCell>
-                <TableCell>{product.productName}</TableCell>
-                <TableCell>{product.category}</TableCell>
+                <TableCell>{item.productName}</TableCell>
+                <TableCell>{item.category}</TableCell>
                 <TableCell>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Button onClick={() => handleDecreaseQuantity(product._id)}>
+                    <Button
+                      onClick={() => handleDecreaseQuantity(item._id)}
+                    >
                       <AiOutlineMinus color="#333" />
                     </Button>
-                    {quantities[product._id] || 0}
-                    <Button onClick={() => handleIncreaseQuantity(product._id)}>
+                    {quantities[item._id] || 0}
+                    <Button
+                      onClick={() => handleIncreaseQuantity(item._id)}
+                    >
                       <AiOutlinePlus color="#333" />
                     </Button>
                   </Box>
                 </TableCell>
-                <TableCell>${calculateTotalPrice(product)}</TableCell>
-                <TableCell>${calculateTotalTax(product)}</TableCell>
+                <TableCell>${calculateTotalPrice(item)}</TableCell>
+                <TableCell>${calculateTotalTax(item)}</TableCell>
                 <TableCell>
-                  $
-                  {(
-                    calculateTotalPrice(product) + calculateTotalTax(product)
-                  ).toFixed(2)}
+                  ${(calculateTotalPrice(item) + calculateTotalTax(item)).toFixed(2)}
                 </TableCell>
                 <TableCell>
                   <Button
@@ -112,7 +175,7 @@ const Cart = () => {
                     variant="contained"
                     color="primary"
                     fullWidth
-                    onClick={() => handleDelete(product._id)}
+                    onClick={() => handleDelete(item._id)} // Pass the item id to handleDelete
                   >
                     Delete
                   </Button>
@@ -124,11 +187,10 @@ const Cart = () => {
       </TableContainer>
       <Box sx={{ width: "100%", textAlign: "right" }}>
         <Typography mt={2}>
-          Total Price: ${calculateOverallTotalPrice()}
+          Total Price: ${calculateOverallTotalPrice().toFixed(2)}
         </Typography>
         <Button
-          component={Link}
-          to="/dashboard/make-payment"
+          onClick={() => handleMakePayment(selectedCart)}
           type="submit"
           variant="contained"
           color="primary"

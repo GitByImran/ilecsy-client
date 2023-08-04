@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
   Box,
@@ -10,6 +10,10 @@ import {
   Button,
 } from "@mui/material";
 import { FiUser } from "react-icons/fi";
+import { Toaster, toast } from "react-hot-toast";
+import { AuthContext } from "../../authentication/Provider";
+
+import Swal from "sweetalert2";
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
@@ -25,23 +29,26 @@ const ManageUser = () => {
       });
   }, []);
 
-  const handleMakeAdminUser = (user) => {
+  const handleMakeUserAdmin = (user, userName) => {
     const updatedUser = { ...user, role: "admin" };
-
+    console.log(user)
     axios
       .patch(`http://localhost:5000/users/${user._id}`, updatedUser)
       .then((response) => {
         setUsers((prevUsers) =>
           prevUsers.map((u) => (u._id === user._id ? response.data : u))
         );
-        window.location.reload(); // Refresh the page after successful update
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+        toast.success(`${userName} is now an admin`)
       })
       .catch((error) => {
         console.error("Error updating user:", error);
       });
   };
 
-  const handleMakeUserAdmin = (user) => {
+  const handleMakeAdminUser = (user, userName) => {
     const updatedUser = { ...user, role: "user" };
 
     axios
@@ -50,7 +57,10 @@ const ManageUser = () => {
         setUsers((prevUsers) =>
           prevUsers.map((u) => (u._id === user._id ? response.data : u))
         );
-        window.location.reload(); // Refresh the page after successful update
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+        toast.success(`${userName} is now an user`)
       })
       .catch((error) => {
         console.error("Error updating user:", error);
@@ -59,23 +69,37 @@ const ManageUser = () => {
 
   const handleDeleteUser = async (user) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:5000/users/${user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const result = await Swal.fire({
+        title: 'Are you sure to delete this account?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      });
 
-      if (response.status === 200) {
-        setUsers((prevUsers) => prevUsers.filter((u) => u._id !== user._id));
-        window.location.reload(); // Refresh the page after successful delete
+      if (result.isConfirmed) {
+
+        const response = await axios.delete(
+          `http://localhost:5000/users/${user._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setUsers((prevUsers) => prevUsers.filter((u) => u._id !== user._id));
+          Swal.fire('Deleted!', `${user.name}'s account has been deleted.`, 'success');
+        }
       }
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.error('Error deleting user:', error);
     }
   };
+
 
   return (
     <Box>
@@ -132,7 +156,7 @@ const ManageUser = () => {
                       variant="outlined"
                       color="primary"
                       size="small"
-                      onClick={() => handleMakeAdminUser(user)}
+                      onClick={() => handleMakeUserAdmin(user, user.name)}
                     >
                       Make Admin
                     </Button>
@@ -141,7 +165,7 @@ const ManageUser = () => {
                       variant="outlined"
                       color="secondary"
                       size="small"
-                      onClick={() => handleMakeUserAdmin(user)}
+                        onClick={() => handleMakeAdminUser(user, user.name)}
                     >
                       Make User
                     </Button>
@@ -160,6 +184,7 @@ const ManageUser = () => {
           ))}
         </TableBody>
       </Table>
+      <Toaster />
     </Box>
   );
 };

@@ -14,14 +14,18 @@ const categories = [
   { label: "toys" },
   { label: "crafts" },
 ];
+
 const SecondaryNavbar = () => {
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
-  const [prodCat, setProdCat] = useState("");
+
+  // Initialize prodCat state with "watches" as the default value
+  const [prodCat, setProdCat] = useState("watches");
 
   const handleCategory = (item) => {
     setProdCat(item);
   };
+
 
   return (
     <Box>

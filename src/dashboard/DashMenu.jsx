@@ -90,18 +90,6 @@ const DashMenu = () => {
               </ListItemIcon>
               <ListItemText primary="All Orders" />
             </ListItemButton>
-            <ListItemButton component={Link} to="/dashboard/pending-orders">
-              <ListItemIcon>
-                <MdPendingActions fontSize={20} />
-              </ListItemIcon>
-              <ListItemText primary="Pending orders" />
-            </ListItemButton>
-            <ListItemButton component={Link} to="/dashboard/complete-orders">
-              <ListItemIcon>
-                <TbTruckDelivery fontSize={20} />
-              </ListItemIcon>
-              <ListItemText primary="Complete orders" />
-            </ListItemButton>
           </ListItem>
         ) : (
           <ListItem

@@ -45,8 +45,8 @@ const Signup = () => {
         const cuerrentUser = userCredential.user;
         updateUserProfile(name)
           .then((user) => {
-            console.log("User name updated successfully");
-            console.log(cuerrentUser);
+            // console.log("User name updated successfully");
+            // console.log(cuerrentUser);
 
             axios
               .post("http://localhost:5000/users", {
@@ -55,21 +55,21 @@ const Signup = () => {
                 role: "user",
               })
               .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
               })
               .catch((error) => {
-                console.log("Error sending POST request:", error);
+                // console.log("Error sending POST request:", error);
               });
 
             reset();
             navigate("/signin");
           })
           .catch((error) => {
-            console.log("Error updating user name:", error);
+            // console.log("Error updating user name:", error);
           });
       })
       .catch((error) => {
-        console.log("Error creating user:", error);
+        // console.log("Error creating user:", error);
       });
   };
 

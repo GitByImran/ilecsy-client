@@ -1,3 +1,4 @@
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,32 +10,61 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../authentication/Provider";
+import { Toaster, toast } from "react-hot-toast";
 
 const Products = ({ prodCat }) => {
-  const { cart, updateCart } = useContext(AuthContext);
+  const { addToCart, isAdmin, user, setCart, loading } = useContext(AuthContext);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [productData, setProductData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const token = localStorage.getItem("token");
+
+  const userEmail = user ? user.email : null;
+
+  const [userData, setUserData] = useState(() => {
+    const userDataFromStorage = localStorage.getItem("userData");
+    return userDataFromStorage ? JSON.parse(userDataFromStorage) : {};
+  });
+
+  const handleAddToCart = (product) => {
+    if (!user) {
+      toast.error(
+        "You have to SignIn first to select product",
+        {
+          duration: 6000,
+        }
+      );
+      return
+    }
+    const isProductAlreadyAdded = userData[userEmail]?.some(
+      (item) => item._id === product._id
+    );
+
+    if (!isProductAlreadyAdded) {
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [userEmail]: [...(prevUserData[userEmail] || []), product],
+      }));
+      toast.success('product added')
+    }
+    else {
+      toast.error('already added')
+    }
+  };
+
+  useEffect(() => {
+    localStorage.setItem("userData", JSON.stringify(userData));
+  }, [userData]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/products", //https://ilecsy-server.vercel.app/products
-          {
-            headers: {
-              authorization: `bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get("http://localhost:5000/products");
         setProductData(response.data);
       } catch (error) {
-        console.error("Error fetching product data:", error);
+        // console.error("Error fetching product data:", error);
       }
     };
 
@@ -42,24 +72,17 @@ const Products = ({ prodCat }) => {
   }, []);
 
   useEffect(() => {
-    if (prodCat && productData.length > 0) {
-      const filtered = productData.filter(
-        (product) => product.category === prodCat
-      );
+    if (!prodCat && productData.length > 0) {
+      const defaultCategory = "watches"; // You can change this to any desired default category
+      const filtered = productData.filter((product) => product.category === defaultCategory);
+      setFilteredData(filtered);
+    } else if (prodCat) {
+      const filtered = productData.filter((product) => product.category === prodCat);
       setFilteredData(filtered);
     } else {
-      setFilteredData(productData);
+      setFilteredData([]);
     }
   }, [prodCat, productData]);
-
-  const HandleAddToCart = (id) => {
-    const selectedProduct = filteredData.find((product) => product._id === id);
-    if (!selectedProduct || cart.some((item) => item._id === id)) {
-      return;
-    }
-    const updatedCart = [...cart, selectedProduct];
-    updateCart(updatedCart);
-  };
 
   return (
     <Box>
@@ -72,7 +95,7 @@ const Products = ({ prodCat }) => {
             textTransform: "capitalize",
           }}
         >
-          {filteredData[0] ? filteredData[0].category : "loading..."}
+          {loading ? "loading..." : filteredData[0] ? filteredData[0].category : "Sorry, no product here"}
         </b>
       </Typography>
 
@@ -88,8 +111,8 @@ const Products = ({ prodCat }) => {
           marginY: 5,
         }}
       >
-        {filteredData.slice(0, 6).map((product, index) => (
-          <Card key={index}>
+        {filteredData.map((product) => (
+          <Card key={product._id}>
             <CardContent>
               <CardMedia sx={{ display: "flex", justifyContent: "center" }}>
                 <img
@@ -126,7 +149,8 @@ const Products = ({ prodCat }) => {
               >
                 <Button
                   variant="outlined"
-                  onClick={() => HandleAddToCart(product._id)}
+                  onClick={() => handleAddToCart(product)}
+                  disabled={isAdmin}
                 >
                   Add to cart
                 </Button>
@@ -136,6 +160,7 @@ const Products = ({ prodCat }) => {
           </Card>
         ))}
       </Box>
+      <Toaster />
     </Box>
   );
 };

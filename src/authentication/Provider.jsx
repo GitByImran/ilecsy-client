@@ -19,13 +19,11 @@ const googleProvider = new GoogleAuthProvider();
 
 const Provider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false); // New state to store admin status
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userData, setUserData] = useState(null);
-  const [userFound, setUserFound] = useState(false);
   const [userNotFound, setUserNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
-  const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
-  const [cart, setCart] = useState(existingCartData);
+
 
   const createUser = (displayName, email, password) => {
     setLoading(true);
@@ -37,13 +35,12 @@ const Provider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const googleRegister = (googleProvider) => {
+  const googleRegister = () => {
     return signInWithPopup(auth, googleProvider);
   };
 
   const logOut = () => {
     setLoading(true);
-    setUserNotFound(true);
     return signOut(auth);
   };
 
@@ -52,20 +49,6 @@ const Provider = ({ children }) => {
       setUser(loggedUser);
       setLoading(false);
       if (loggedUser) {
-        axios
-          .post(
-            "http://localhost:5000/jwt",
-            { email: loggedUser.email },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((data) => {
-            localStorage.setItem("token", data.data.token);
-          });
-        setUserFound(true);
 
         axios
           .get("http://localhost:5000/users")
@@ -75,8 +58,8 @@ const Provider = ({ children }) => {
               (item) => item.email === loggedUser.email
             );
             setUserData(foundUser);
-            console.log(userData);
-            if (foundUser && foundUser.role === "admin") {
+            // console.log(userData);
+            if (foundUser && foundUser?.role === "admin") {
               setIsAdmin(true);
             } else {
               setIsAdmin(false);
@@ -86,7 +69,7 @@ const Provider = ({ children }) => {
             console.error("Error fetching user data:", error);
           });
       } else {
-        localStorage.removeItem("token");
+        setIsAdmin(false);
       }
     });
     return () => {
@@ -95,20 +78,9 @@ const Provider = ({ children }) => {
   }, []);
 
   const updateUserProfile = (displayName) => {
-    console.log(displayName);
+    // console.log(displayName);
     return updateProfile(auth.currentUser, { displayName });
   };
-
-  // Function to update the cart and update localStorage
-  const updateCart = (newCart) => {
-    setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
-  };
-
-  // Watch for changes in the cart state and update localStorage
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
 
   const authInfo = {
     auth,
@@ -122,11 +94,8 @@ const Provider = ({ children }) => {
     setLoading,
     googleRegister,
     updateUserProfile,
-    userFound,
-    userNotFound,
-    cart,
-    updateCart,
   };
+
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );

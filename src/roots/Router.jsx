@@ -11,8 +11,6 @@ import PaymentHistory from "../dashboard/user/PaymentHistory";
 import MyOrders from "../dashboard/user/MyOrders";
 import ManageUser from "../dashboard/admin/ManageUser";
 import Allorders from "../dashboard/admin/Allorders";
-import PendingOrders from "../dashboard/admin/PendingOrders";
-import CompleteOrders from "../dashboard/admin/CompleteOrders";
 import Profile from "../dashboard/dashboard-components/Profile";
 import AddProducts from "../dashboard/admin/AddProducts";
 import ManageProduct from "../dashboard/admin/ManageProduct";
@@ -79,14 +77,6 @@ const Routes = createBrowserRouter([
       {
         path: "/dashboard/all-orders",
         element: <Allorders />,
-      },
-      {
-        path: "/dashboard/pending-orders",
-        element: <PendingOrders />,
-      },
-      {
-        path: "/dashboard/complete-orders",
-        element: <CompleteOrders />,
       },
     ],
   },

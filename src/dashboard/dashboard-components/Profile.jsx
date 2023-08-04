@@ -16,6 +16,8 @@ import { HiOutlineBadgeCheck } from "react-icons/hi";
 import { FiUserCheck } from "react-icons/fi";
 import axios from "axios";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
+import { ThreeDots } from "react-loader-spinner";
+import { Toaster } from "react-hot-toast";
 
 const Profile = () => {
   const { isAdmin, user, userData } = useContext(AuthContext);
@@ -27,9 +29,6 @@ const Profile = () => {
   const [email, setEmail] = useState(userData?.email || "");
   const [open, setOpen] = useState(false);
   const apiKey = "f6b7ed31eea5a21e9e00f71286c18481";
-
-  console.log(user);
-  console.log(userData);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -66,16 +65,12 @@ const Profile = () => {
 
       await axios.put(
         `http://localhost:5000/users/${userData._id}`,
-        updatedUserData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+        updatedUserData
       );
 
       setOpen(false);
       window.location.reload();
+      toast.success('Successfully updated !')
     } catch (error) {
       console.error("Error updating user:", error);
     }
@@ -160,16 +155,27 @@ const Profile = () => {
                   </Typography>
 
                   {/* Image uploading */}
+                  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <input type="file" onChange={handleImageChange} />
                   <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleUpload}
-                    // disabled={uploadComplete}
-                  >
-                    {uploadComplete ? "Image Uploaded" : "Upload Image"}
-                  </Button>
-                  <Typography>{uploading && "uploading"}</Typography>
+                      sx={{ width: "37%" }}
+                      variant="contained"
+                      color="primary"
+                      onClick={handleUpload}
+                    >
+                      {uploading ? <ThreeDots
+                        height="40"
+                        width="40"
+                        radius="9"
+                        color="#fff"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClassName=""
+                        visible={true}
+                      /> : "Upload Image"}
+                    </Button>
+                  </Box>
+                  {/* <Typography>{uploading && "uploading..."}</Typography> */}
                   {/* Name Field */}
                   <TextField
                     label="Name"
@@ -202,6 +208,7 @@ const Profile = () => {
       ) : (
         <Typography variant="body1">Loading...</Typography>
       )}
+      <Toaster />
     </div>
   );
 };

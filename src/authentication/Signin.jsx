@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "./Provider";
 
 const Signin = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, userNotFound } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
@@ -25,7 +25,8 @@ const Signin = () => {
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        console.log(error.message);
+        // console.log(error.message);
+        return;
       });
   };
 

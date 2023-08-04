@@ -23,12 +23,14 @@ const ManageProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState("Watches");
   const [openModal, setOpenModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [updatedProduct, setUpdatedProduct] = useState({});
 
   useEffect(() => {
     axios
       .get("http://localhost:5000/products")
       .then((response) => {
         setProducts(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching product data:", error);
@@ -53,8 +55,51 @@ const ManageProduct = () => {
   };
 
   const handleUpdateDetails = (data) => {
-    console.log("Updated Details:", data);
+    // console.log("Updated Details:", data);
     setOpenModal(false);
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      // Send the PATCH request to update the product details
+      const response = await axios.patch(
+        `http://localhost:5000/products/${selectedProduct._id}`,
+        updatedProduct
+      );
+
+      if (response.status === 200) {
+        // If the update is successful, update the products state with the updated product
+        setProducts((prevProducts) =>
+          prevProducts.map((product) =>
+            product._id === selectedProduct._id ? response.data : product
+          )
+        );
+        window.location.reload();
+
+        // Close the modal after successful update
+        setOpenModal(false);
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
+  };
+
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:5000/products/${productId}`
+      );
+
+      if (response.status === 200) {
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId)
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
   };
 
   return (
@@ -126,7 +171,11 @@ const ManageProduct = () => {
                   >
                     Update
                   </Button>
-                  <Button variant="contained" size="small">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => handleDeleteProduct(product._id)}
+                  >
                     delete
                   </Button>
                 </Box>
@@ -157,6 +206,13 @@ const ManageProduct = () => {
                   label="Product Name"
                   fullWidth
                   placeholder={selectedProduct?.productName}
+                  value={updatedProduct.productName || ""}
+                  onChange={(e) =>
+                    setUpdatedProduct({
+                      ...updatedProduct,
+                      productName: e.target.value,
+                    })
+                  }
                 />
               </Grid>
 
@@ -175,17 +231,29 @@ const ManageProduct = () => {
                   label="Available Quantity"
                   fullWidth
                   placeholder={selectedProduct?.availableQuantity}
-                  type="number"
+                  value={updatedProduct.availableQuantity || ""}
+                  onChange={(e) =>
+                    setUpdatedProduct({
+                      ...updatedProduct,
+                      availableQuantity: e.target.value,
+                    })
+                  }
                 />
               </Grid>
 
               {/* Price */}
               <Grid item xs={12}>
                 <TextField
-                  label="Price"
+                  label="Product Price"
                   fullWidth
                   placeholder={selectedProduct?.price}
-                  type="number"
+                  value={updatedProduct.price || ""}
+                  onChange={(e) =>
+                    setUpdatedProduct({
+                      ...updatedProduct,
+                      price: e.target.value,
+                    })
+                  }
                 />
               </Grid>
 
@@ -195,7 +263,13 @@ const ManageProduct = () => {
                   label="Tax"
                   fullWidth
                   placeholder={selectedProduct?.tax}
-                  type="number"
+                  value={updatedProduct.tax || ""}
+                  onChange={(e) =>
+                    setUpdatedProduct({
+                      ...updatedProduct,
+                      tax: e.target.value,
+                    })
+                  }
                 />
               </Grid>
 
@@ -226,6 +300,7 @@ const ManageProduct = () => {
                   variant="contained"
                   color="primary"
                   fullWidth
+                  onClick={handleFormSubmit}
                 >
                   Update Details
                 </Button>
