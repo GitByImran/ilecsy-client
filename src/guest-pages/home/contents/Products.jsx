@@ -100,13 +100,13 @@ const Products = ({ prodCat }) => {
   };
 
   const Style = styled(Box)(({ theme }) => ({
-    '& .MuiCardMedia-root.css-ibf85p-MuiCardMedia-root': {
-      height: '200px',
+    '& .css-4pplly .MuiCardMedia-root.css-ibf85p-MuiCardMedia-root': {
+      height: '200px ',
       width: '100%',
       overflow: 'hidden',
     }
   }))
-  console.log(filteredData)
+  // console.log(filteredData)
 
   return (
     <Box>
@@ -119,7 +119,7 @@ const Products = ({ prodCat }) => {
             textTransform: "capitalize",
           }}
         >
-          {loading ? "loading..." : filteredData.length > 0 ? filteredData[0]?.category : 'No product avialable'}
+          {loading ? "loading..." : filteredData.length > 0 ? filteredData[0]?.category : 'Wait a while please'}
         </b>
       </Typography>
       <Style>
@@ -138,7 +138,7 @@ const Products = ({ prodCat }) => {
         {filteredData.map((product) => (
           <Card key={product._id}>
             <CardContent>
-              <CardMedia sx={{ display: "flex", justifyContent: "center" }}>
+              <CardMedia sx={{ display: "flex", justifyContent: "center", height: '200px', width: '100%', overflow: "hidden" }}>
                 <img
                   src={product.productImage}
                   alt={product.productName}

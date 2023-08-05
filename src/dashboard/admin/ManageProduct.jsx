@@ -21,6 +21,8 @@ const ManageProduct = () => {
   const [products, setProducts] = useState([]);
   const [selectedOption, setSelectedOption] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("Watches");
+  const [selectedAvailability, setSelectedAvailability] = useState("");
+
   const [openModal, setOpenModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [updatedProduct, setUpdatedProduct] = useState({});
@@ -47,8 +49,10 @@ const ManageProduct = () => {
 
   const handleUpdateButtonClick = (product) => {
     setSelectedProduct(product);
+    setSelectedAvailability(product.availableQuantity > 0 ? "in-stock" : "out-of-stock");
     setOpenModal(true);
   };
+
 
   const handleModalClose = () => {
     setOpenModal(false);
@@ -63,9 +67,14 @@ const ManageProduct = () => {
     event.preventDefault();
 
     try {
+      const updatedProductData = {
+        ...updatedProduct,
+        availableQuantity: selectedAvailability === "in-stock" ? 1 : 0,
+      };
+
       const response = await axios.patch(
         `https://ilecsy-server.vercel.app/products/${selectedProduct._id}`,
-        updatedProduct
+        updatedProductData
       );
 
       if (response.status === 200) {
@@ -75,7 +84,6 @@ const ManageProduct = () => {
           )
         );
         window.location.reload();
-
         setOpenModal(false);
       }
     } catch (error) {
@@ -222,18 +230,15 @@ const ManageProduct = () => {
 
               {/* Available Quantity */}
               <Grid item xs={12}>
-                <TextField
-                  label="Available Quantity"
-                  fullWidth
-                  placeholder={selectedProduct?.availableQuantity}
-                  value={updatedProduct.availableQuantity || ""}
-                  onChange={(e) =>
-                    setUpdatedProduct({
-                      ...updatedProduct,
-                      availableQuantity: e.target.value,
-                    })
-                  }
-                />
+                <FormControl fullWidth>
+                  <Select
+                    value={selectedAvailability}
+                    onChange={(e) => setSelectedAvailability(e.target.value)}
+                  >
+                    <MenuItem value="inStock">In Stock</MenuItem>
+                    <MenuItem value="outOfStock">Out of Stock</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
 
               {/* Price */}

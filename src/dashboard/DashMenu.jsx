@@ -32,8 +32,8 @@ import { ProgressBar } from "react-loader-spinner";
 
 const Style = styled(List)(({ theme }) => ({
   "& .MuiListItemIcon-root.css-cveggr-MuiListItemIcon-root": {
-    minWidth: '0px',
-    marginRight: '10px !important',
+    // minWidth: '0px',
+    // marginRight: '10px !important',
   },
 }));
 
@@ -75,28 +75,28 @@ const DashMenu = () => {
             }}
           >
             <ListItemButton component={Link} to="/dashboard/manage-users">
-              <ListItemIcon>
+              <ListItemIcon sx={{ minWidth: 0 }}>
                 <PiUsersThreeBold fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="Manage users" />
+              <ListItemText sx={{ ml: 2 }} primary="Manage users" />
             </ListItemButton>
             <ListItemButton component={Link} to="/dashboard/manage-products">
-              <ListItemIcon>
+              <ListItemIcon sx={{ minWidth: 0 }}>
                 <BiCategory fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="Manage products" />
+              <ListItemText sx={{ ml: 2 }} primary="Manage products" />
             </ListItemButton>
             <ListItemButton component={Link} to="/dashboard/add-products">
-              <ListItemIcon>
+              <ListItemIcon sx={{ minWidth: 0 }}>
                 <IoMdAddCircleOutline fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="Add products" />
+              <ListItemText sx={{ ml: 2 }} primary="Add products" />
             </ListItemButton>
             <ListItemButton component={Link} to="/dashboard/all-orders">
-              <ListItemIcon>
+              <ListItemIcon sx={{ minWidth: 0 }}>
                 <GoNote fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="All Orders" />
+              <ListItemText sx={{ ml: 2 }} primary="All Orders" />
             </ListItemButton>
           </ListItem>
         ) : (
@@ -108,28 +108,28 @@ const DashMenu = () => {
             }}
           >
             <ListItemButton component={Link} to="/dashboard/cart">
-              <ListItemIcon>
+                <ListItemIcon sx={{ minWidth: 0 }}>
                 <AiOutlineShoppingCart fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="My cart" />
+                <ListItemText sx={{ ml: 2 }} primary="My cart" />
             </ListItemButton>
             {/* <ListItemButton component={Link} to="/dashboard/make-payment">
-              <ListItemIcon>
+              <ListItemIcon  sx={{ minWidth: 0 }}>
                 <MdOutlinePayments fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="Make payment" />
+              <ListItemText sx={{2}} primary="Make payment" />
             </ListItemButton> */}
             <ListItemButton component={Link} to="/dashboard/payment-history">
-              <ListItemIcon>
+                <ListItemIcon sx={{ minWidth: 0 }}>
                 <RiHistoryFill fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="Payment history" />
+                <ListItemText sx={{ ml: 2 }} primary="Payment history" />
             </ListItemButton>
             <ListItemButton component={Link} to="/dashboard/my-orders">
-              <ListItemIcon>
+                <ListItemIcon sx={{ minWidth: 0 }}>
                 <MdOutlineProductionQuantityLimits fontSize={20} />
               </ListItemIcon>
-              <ListItemText primary="My orders" />
+                <ListItemText sx={{ ml: 2 }} primary="My orders" />
             </ListItemButton>
           </ListItem>
         )}
@@ -145,16 +145,16 @@ const DashMenu = () => {
           }}
         >
           <ListItemButton component={Link} to="/dashboard/profile">
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 0 }}>
               <CgProfile fontSize={20} />
             </ListItemIcon>
-            <ListItemText primary="Profile" />
+            <ListItemText sx={{ ml: 2 }} primary="Profile" />
           </ListItemButton>
           <ListItemButton component={Link} to="/">
-            <ListItemIcon>
+            <ListItemIcon sx={{ minWidth: 0 }}>
               <GoHome fontSize={20} />
             </ListItemIcon>
-            <ListItemText primary="Back to home" />
+            <ListItemText sx={{ ml: 2 }} primary="Back to home" />
           </ListItemButton>
         </ListItem>
       </List></Style>
