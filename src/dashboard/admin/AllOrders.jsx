@@ -38,7 +38,7 @@ const AllOrders = () => {
     async () => {
       if (user?.email) {
         const response = await fetch(
-          `http://localhost:5000/payments`
+          `https://ilecsy-server.vercel.app/payments`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -56,7 +56,7 @@ const AllOrders = () => {
   const { isLoading: productsLoading, isError: productsError, data: productsData = [] } = useQuery(
     ["products", 10000],
     async () => {
-      const response = await fetch("http://localhost:5000/products");
+      const response = await fetch("https://ilecsy-server.vercel.app/products");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -87,7 +87,7 @@ const AllOrders = () => {
 
   const handleDelivered = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/payments/${id}`, {
+      const response = await fetch(`https://ilecsy-server.vercel.app/payments/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -168,28 +168,28 @@ const AllOrders = () => {
 
       {/* render component */}
       {filteredOrders().map((payment) => (
-        <Box key={payment._id} sx={{ border: "1px solid #ddd" }}>
-          <Accordion key={payment._id} >
+        <Box key={payment?._id} sx={{ border: "1px solid #ddd" }}>
+          <Accordion key={payment?._id} >
             <AccordionSummary expandIcon={<ExpandMoreIcon sx={{ ml: 2 }} />}>
               <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}><Typography>Payment information : (click to see)</Typography>
                 <div onClick={(e) => { e.stopPropagation() }}>
                   <Button
                     variant="contained"
                     sx={{ p: 0, m: 0, px: 2 }}
-                    onClick={() => handleDelivered(payment._id)}
-                    disabled={payment.status === 'delivered'}
+                    onClick={() => handleDelivered(payment?._id)}
+                    disabled={payment?.status === 'delivered'}
                   >
-                    {payment.status === 'delivered' ? "Delivered" : "Delivery Complete ?"}
+                    {payment?.status === 'delivered' ? "Delivered" : "Delivery Complete ?"}
                   </Button>
                 </div>
               </Box>
             </AccordionSummary>
 
             <AccordionDetails>
-              <Typography variant="h6">Payment ID: {payment._id}</Typography>
-              <Typography variant="body1">Delivery Status: {payment.status}</Typography>
-              <Typography variant="body1">Total Amount: ${payment.amount / 100}</Typography>
-              <Typography variant="body1">Payment Date: {payment.date}</Typography>
+              <Typography variant="h6">Payment ID: {payment?._id}</Typography>
+              <Typography variant="body1">Delivery Status: {payment?.status}</Typography>
+              <Typography variant="body1">Total Amount: ${payment?.amount / 100}</Typography>
+              <Typography variant="body1">Payment Date: {payment?.date}</Typography>
             </AccordionDetails>
           </Accordion>
           <TableContainer>
@@ -206,9 +206,9 @@ const AllOrders = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Object.keys(payment.products).map((productId) => {
+                {Object.keys(payment?.products).map((productId) => {
                   const productDetails = getProductDetails(productId);
-                  const quantity = payment.products[productId];
+                  const quantity = payment?.products[productId];
 
                   return (
                     <TableRow key={productId}>
@@ -219,10 +219,10 @@ const AllOrders = () => {
                           style={{ width: "75px", height: "75px" }}
                         />
                       </TableCell>
-                      <TableCell>{productDetails.productName}</TableCell>
-                      <TableCell>{productDetails.category}</TableCell>
-                      <TableCell>{productDetails.price}</TableCell>
-                      <TableCell>{productDetails.tax}</TableCell>
+                      <TableCell>{productDetails?.productName}</TableCell>
+                      <TableCell>{productDetails?.category}</TableCell>
+                      <TableCell>{productDetails?.price}</TableCell>
+                      <TableCell>{productDetails?.tax}</TableCell>
                       <TableCell>{quantity}</TableCell>
                       <TableCell>{payment.status}</TableCell>
                     </TableRow>

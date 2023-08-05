@@ -20,7 +20,7 @@ const ManageUser = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/users")
+      .get("https://ilecsy-server.vercel.app/users")
       .then((response) => {
         setUsers(response.data);
       })
@@ -31,7 +31,7 @@ const ManageUser = () => {
 
   const handleMakeUserAdmin = (user, userName) => {
     const updatedUser = { ...user, role: "admin" };
-    console.log(user)
+    // console.log(user)
     axios
       .patch(`http://localhost:5000/users/${user._id}`, updatedUser)
       .then((response) => {

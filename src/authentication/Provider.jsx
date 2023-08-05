@@ -51,7 +51,7 @@ const Provider = ({ children }) => {
       if (loggedUser) {
 
         axios
-          .get("http://localhost:5000/users")
+          .get("https://ilecsy-server.vercel.app/users")
           .then((response) => {
             const data = response.data;
             const foundUser = data.find(

@@ -64,7 +64,7 @@ const Profile = () => {
       };
 
       await axios.put(
-        `http://localhost:5000/users/${userData._id}`,
+        `https://ilecsy-server.vercel.app/users/${userData._id}`,
         updatedUserData
       );
 

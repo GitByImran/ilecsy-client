@@ -9,6 +9,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import React, { useContext } from "react";
 import "../index.css";
@@ -29,10 +30,17 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { AuthContext } from "../authentication/Provider";
 import { ProgressBar } from "react-loader-spinner";
 
+const Style = styled(List)(({ theme }) => ({
+  "& .MuiListItemIcon-root.css-cveggr-MuiListItemIcon-root": {
+    minWidth: '0px',
+    marginRight: '10px !important',
+  },
+}));
+
 const DashMenu = () => {
   const { loading, isAdmin } = useContext(AuthContext);
   return (
-    <Box>
+    <Box> <Style>
       <Toolbar>
         {loading ? (
           <ProgressBar
@@ -149,7 +157,7 @@ const DashMenu = () => {
             <ListItemText primary="Back to home" />
           </ListItemButton>
         </ListItem>
-      </List>
+      </List></Style>
     </Box>
   );
 };

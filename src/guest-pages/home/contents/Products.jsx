@@ -5,10 +5,13 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Dialog,
+  DialogContent,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { AuthContext } from "../../../authentication/Provider";
 import { Toaster, toast } from "react-hot-toast";
@@ -20,6 +23,9 @@ const Products = ({ prodCat }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [productData, setProductData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
 
   const userEmail = user ? user.email : null;
 
@@ -61,7 +67,7 @@ const Products = ({ prodCat }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/products");
+        const response = await axios.get("https://ilecsy-server.vercel.app/products");
         setProductData(response.data);
       } catch (error) {
         // console.error("Error fetching product data:", error);
@@ -84,6 +90,24 @@ const Products = ({ prodCat }) => {
     }
   }, [prodCat, productData]);
 
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const Style = styled(Box)(({ theme }) => ({
+    '& .MuiCardMedia-root.css-ibf85p-MuiCardMedia-root': {
+      height: '200px',
+      width: '100%',
+      overflow: 'hidden',
+    }
+  }))
+  console.log(filteredData)
+
   return (
     <Box>
       <Typography width="100%" textAlign="center" py={2}>
@@ -95,10 +119,10 @@ const Products = ({ prodCat }) => {
             textTransform: "capitalize",
           }}
         >
-          {loading ? "loading..." : filteredData[0] ? filteredData[0].category : "Sorry, no product here"}
+          {loading ? "loading..." : filteredData.length > 0 ? filteredData[0]?.category : 'No product avialable'}
         </b>
       </Typography>
-
+      <Style>
       <Box
         sx={{
           display: "grid",
@@ -119,13 +143,15 @@ const Products = ({ prodCat }) => {
                   src={product.productImage}
                   alt={product.productName}
                   style={{
-                    maxHeight: "300px",
-                    maxWidth: "300px",
+                    maxHeight: "100%",
+                    maxWidth: "100%",
                     objectFit: "cover",
                   }}
                 />
               </CardMedia>
-              <Box mt={5} mb={2}>
+              <Box mt={5} mb={2} sx={{
+                display: "flex", flexDirection: "column", gap: 1
+              }}>
                 <Typography
                   maxWidth="300px"
                   overflow="hidden"
@@ -134,10 +160,10 @@ const Products = ({ prodCat }) => {
                 >
                   {product.productName}
                 </Typography>
-                <Typography>
-                  Available quantity : {product.availableQuantity}
+                <Typography>Price : ${product.price}</Typography>
+                <Typography color={product.availablity === 'inStock' ? "green" : 'red'}>
+                  *{product.availablity === 'inStock' ? "In Stock" : "Stock Out"}
                 </Typography>
-                <Typography>Price : {product.price}</Typography>
               </Box>
               <Box
                 sx={{
@@ -150,17 +176,42 @@ const Products = ({ prodCat }) => {
                 <Button
                   variant="outlined"
                   onClick={() => handleAddToCart(product)}
-                  disabled={isAdmin}
+                  disabled={isAdmin || product.availablity === 'outOfStock'}
                 >
                   Add to cart
                 </Button>
-                <Button variant="outlined">details</Button>
+                <Button variant="outlined" onClick={() => handleOpenModal(product)}>
+                  Details
+                </Button>
+
               </Box>
             </CardContent>
           </Card>
         ))}
-      </Box>
+        </Box></Style>
       <Toaster />
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogContent>
+          {selectedProduct && (
+            <>
+              <img
+                src={selectedProduct?.productImage}
+                alt={selectedProduct?.productName}
+                style={{ maxHeight: "300px", maxWidth: "300px", objectFit: "cover" }}
+              />
+              <Typography>Product ID: {selectedProduct?._id}</Typography>
+              <Typography>Product Name: {selectedProduct?.productName}</Typography>
+              <Typography>Price: ${selectedProduct?.price}</Typography>
+              <Typography>Tax: ${selectedProduct?.tax}</Typography>
+              <Typography>
+                Availability: {selectedProduct?.availablity === "inStock" ? "In Stock" : "Out of Stock"}
+              </Typography>
+              <Typography>Category: {selectedProduct?.category}</Typography>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
     </Box>
   );
 };

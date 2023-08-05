@@ -5,14 +5,14 @@ import axios from "axios";
 import { AuthContext } from "../../authentication/Provider";
 
 const PaymentHistory = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [paymentHistory, setPaymentHistory] = useState([]);
 
   useEffect(() => {
     // Fetch payment history from the server using axios.get with user's email as a query parameter
     if (user?.email) {
       axios
-        .get("http://localhost:5000/payments", {
+        .get("https://ilecsy-server.vercel.app/payments", {
           params: {
             email: user.email,
           },
@@ -25,9 +25,15 @@ const PaymentHistory = () => {
         });
     }
   }, [user?.email]);
+
+  if (loading) {
+    return <Box>Loading...</Box>
+  }
+
   if (paymentHistory.length === 0) {
     return <Box>You have not made any payment yet.</Box>;
   }
+
   return (
     <>
       {paymentHistory.map((payment) => (

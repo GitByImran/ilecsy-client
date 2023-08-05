@@ -25,7 +25,7 @@ const MyOrders = () => {
     async () => {
       if (user?.email) {
         const response = await fetch(
-          `http://localhost:5000/payments?email=${user?.email}`
+          `https://ilecsy-server.vercel.app/payments?email=${user?.email}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -42,7 +42,7 @@ const MyOrders = () => {
   const { isLoading: productsLoading, isError: productsError, data: productsData } = useQuery(
     ["products", 10000],
     async () => {
-      const response = await fetch("http://localhost:5000/products");
+      const response = await fetch("https://ilecsy-server.vercel.app/products");
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

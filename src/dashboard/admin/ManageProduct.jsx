@@ -27,7 +27,7 @@ const ManageProduct = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/products")
+      .get("https://ilecsy-server.vercel.app/products")
       .then((response) => {
         setProducts(response.data);
         // console.log(response.data);
@@ -63,14 +63,12 @@ const ManageProduct = () => {
     event.preventDefault();
 
     try {
-      // Send the PATCH request to update the product details
       const response = await axios.patch(
-        `http://localhost:5000/products/${selectedProduct._id}`,
+        `https://ilecsy-server.vercel.app/products/${selectedProduct._id}`,
         updatedProduct
       );
 
       if (response.status === 200) {
-        // If the update is successful, update the products state with the updated product
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
             product._id === selectedProduct._id ? response.data : product
@@ -78,7 +76,6 @@ const ManageProduct = () => {
         );
         window.location.reload();
 
-        // Close the modal after successful update
         setOpenModal(false);
       }
     } catch (error) {
@@ -89,7 +86,7 @@ const ManageProduct = () => {
   const handleDeleteProduct = async (productId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/products/${productId}`
+        `https://ilecsy-server.vercel.app/products/${productId}`
       );
 
       if (response.status === 200) {
@@ -130,7 +127,6 @@ const ManageProduct = () => {
           <TableCell>Product Name</TableCell>
           <TableCell>Price</TableCell>
           <TableCell>tax</TableCell>
-          <TableCell>Available</TableCell>
           <TableCell>Action</TableCell>
         </TableHead>
         <TableBody>
@@ -156,7 +152,6 @@ const ManageProduct = () => {
               </TableCell>
               <TableCell>${product.price}</TableCell>
               <TableCell>${product.tax}</TableCell>
-              <TableCell>{product.availableQuantity}</TableCell>
               <TableCell>
                 <Box
                   sx={{
@@ -217,13 +212,13 @@ const ManageProduct = () => {
               </Grid>
 
               {/* Product Image */}
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   label="Product Image"
                   fullWidth
                   placeholder="Enter Product Image URL"
                 />
-              </Grid>
+              </Grid> */}
 
               {/* Available Quantity */}
               <Grid item xs={12}>

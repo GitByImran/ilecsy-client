@@ -47,15 +47,16 @@ const Signup = () => {
           .then((user) => {
             // console.log("User name updated successfully");
             // console.log(cuerrentUser);
+            alert()
 
             axios
-              .post("http://localhost:5000/users", {
+              .post("https://ilecsy-server.vercel.app/users", {
                 name: cuerrentUser.displayName,
                 email: cuerrentUser.email,
                 role: "user",
               })
               .then((response) => {
-                // console.log(response.data);
+                console.log(response.data);
               })
               .catch((error) => {
                 // console.log("Error sending POST request:", error);

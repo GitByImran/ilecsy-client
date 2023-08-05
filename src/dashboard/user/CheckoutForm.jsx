@@ -149,7 +149,6 @@ const CheckoutForm = ({ price }) => {
         id: paymentIntent.id,
         amount: paymentIntent.amount,
         currency: paymentIntent.currency,
-        status: paymentIntent.status,
         date: formattedDateTime,
         status: 'pending'
       };

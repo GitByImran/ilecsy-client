@@ -35,7 +35,7 @@ const AddProducts = () => {
   const addProductMutation = useMutation(
     async (formData) => {
       try {
-        const response = await fetch("http://localhost:5000/products", {
+        const response = await fetch("https://ilecsy-server.vercel.app/products", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const AddProducts = () => {
     try {
       const productData = {
         ...data,
-        productImage: imageUrl || "", // Use the uploaded image URL or an empty string if not uploaded
+        productImage: imageUrl || "",
       };
 
       await addProductMutation.mutateAsync(productData);
@@ -233,6 +233,7 @@ const AddProducts = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleUpload}
+                sx={{ width: "50%" }}
               >
                 {uploading ? <ThreeDots
                   height="40"
@@ -246,6 +247,25 @@ const AddProducts = () => {
                 /> : "Upload Image"}
               </Button>
             </Box>
+          </Grid>
+
+          {/* availablity */}
+          <Grid item xs={12} sm={6}>
+            <Controller
+              name="availablity"
+              control={control}
+              defaultValue=""
+              rules={{ required: "availablity is required" }}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <Select {...field} displayEmpty>
+                    <MenuItem value="">Select availablity</MenuItem>
+                    <MenuItem value="inStock">In Stock</MenuItem>
+                    <MenuItem value="outOfStock">Out of Stock</MenuItem>
+                  </Select>
+                </FormControl>
+              )}
+            />
           </Grid>
         </Grid>
 

@@ -13,6 +13,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { AuthContext } from "../../authentication/Provider";
+import { Toaster, toast } from "react-hot-toast";
 
 
 const Cart = () => {
@@ -64,7 +65,7 @@ const Cart = () => {
     const hasZeroPrice = Object.values(data).some((item) => calculateTotalPrice(item) === 0);
 
     if (hasZeroPrice) {
-      alert("Please select at least one quantity for each item or delete the unnecessary item.");
+      toast.error('Please select at least one quantity for \n each item or delete the unnecessary item.')
       return
     }
     else {
@@ -81,7 +82,7 @@ const Cart = () => {
       const productArray = getItemFromcart[user?.email];
       setSelectedCart(productArray || []);
     }
-  }, []);
+  }, [user]);
 
 
   const updateCartData = (updatedSelectedCart) => {
@@ -113,7 +114,6 @@ const Cart = () => {
       setQuantities(storedQuantities);
     }
   }, []);
-  console.log(selectedCart)
 
   return (
     <Box>
@@ -199,6 +199,10 @@ const Cart = () => {
           Make Payment
         </Button>
       </Box>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
     </Box>
   );
 };
