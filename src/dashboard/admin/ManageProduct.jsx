@@ -21,8 +21,6 @@ const ManageProduct = () => {
   const [products, setProducts] = useState([]);
   const [selectedOption, setSelectedOption] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("Watches");
-  const [selectedAvailability, setSelectedAvailability] = useState("");
-
   const [openModal, setOpenModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [updatedProduct, setUpdatedProduct] = useState({});
@@ -38,6 +36,7 @@ const ManageProduct = () => {
         console.error("Error fetching product data:", error);
       });
   }, []);
+
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -49,10 +48,8 @@ const ManageProduct = () => {
 
   const handleUpdateButtonClick = (product) => {
     setSelectedProduct(product);
-    setSelectedAvailability(product.availableQuantity > 0 ? "in-stock" : "out-of-stock");
     setOpenModal(true);
   };
-
 
   const handleModalClose = () => {
     setOpenModal(false);
@@ -67,23 +64,20 @@ const ManageProduct = () => {
     event.preventDefault();
 
     try {
-      const updatedProductData = {
-        ...updatedProduct,
-        availableQuantity: selectedAvailability === "in-stock" ? 1 : 0,
-      };
-
       const response = await axios.patch(
         `https://ilecsy-server.vercel.app/products/${selectedProduct._id}`,
-        updatedProductData
+        updatedProduct
       );
-
+      console.log(response);
+      console.log(updatedProduct);
       if (response.status === 200) {
         setProducts((prevProducts) =>
           prevProducts.map((product) =>
             product._id === selectedProduct._id ? response.data : product
           )
         );
-        window.location.reload();
+        // window.location.reload();
+
         setOpenModal(false);
       }
     } catch (error) {
@@ -106,6 +100,8 @@ const ManageProduct = () => {
       console.error("Error deleting product:", error);
     }
   };
+
+  console.log(updatedProduct)
 
   return (
     <Box>
@@ -232,9 +228,17 @@ const ManageProduct = () => {
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <Select
-                    value={selectedAvailability}
-                    onChange={(e) => setSelectedAvailability(e.target.value)}
+                    label="availablity"
+                    value={updatedProduct.availablity || selectedProduct?.availablity}
+                    onChange={(e) =>
+                      setUpdatedProduct({
+                        ...updatedProduct,
+                        availablity: e.target.value,
+                      })
+                    }
+                    displayEmpty
                   >
+                    <MenuItem value="">Select availablity</MenuItem>
                     <MenuItem value="inStock">In Stock</MenuItem>
                     <MenuItem value="outOfStock">Out of Stock</MenuItem>
                   </Select>

@@ -106,7 +106,6 @@ const Products = ({ prodCat }) => {
       overflow: 'hidden',
     }
   }))
-  // console.log(filteredData)
 
   return (
     <Box>
